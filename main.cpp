@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include "team.h" 
+#include "bintree.h"
 
 using namespace std;
 
@@ -12,7 +13,12 @@ int main()
     int numTeams, numUsers, draftPosition, i, j;
     string teamName;
     Team *arr;
+    BinTree q, r, w, t, d, k;                                           //QB, RB, WR, TE, DE, K
+    char type;
+    NodeData *ptr;
+    bool itsIn;
 
+    //-----------------------------------------PART ONE----------------------------------------------------------------------------
     intro();
 
     cin >> numTeams;
@@ -50,6 +56,65 @@ int main()
 
     for(i = 0; i < numTeams; i++)
         arr[i].displayBasics();
+
+    //-----------------------------------------------------------------END PART ONE---------------------------------------------------
+    //now read in player list into BSTs
+
+    ifstream in("players.txt");
+    if (!in)
+    {
+        cout << "File could not be opened." << endl;
+        return 1;
+    }
+    //factory later....... for now this is fine..
+    while(!in.eof())
+    {
+        type = in.get();
+
+        if(type == 'Q')
+        {
+            break;
+            // Qb john;
+            // ptr = john.makeFromStream(in);
+            // itsIn = com.insert(ptr);
+            // if(!itsIn)
+            //     delete ptr;
+        }
+        else if(type == 'R')
+        {
+            break;
+            // Rb john;
+            // ptr = john.makeFromStream(in);
+            // itsIn = r.insert(ptr);
+            // if(!itsIn)
+            //     delete ptr;
+        }
+        else if(type == 'W')
+        {
+            Player john;
+            ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
+            break;
+            //itsIn = w.insert(ptr);
+            //if(!itsIn)
+                //delete ptr;
+        }
+        else if(type == 'T')
+        {
+            break;
+        }
+        else if(type == 'D')
+        {
+            break;
+        }
+        else if(type == 'K')
+        {
+            break;
+        }
+    }
+
+    cout << endl;
+    in.close();
+    cout << "file closed, program terminated" << endl;
 
 
 }

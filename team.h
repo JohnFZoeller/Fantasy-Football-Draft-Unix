@@ -2,6 +2,7 @@
 #define TEAM_H
 #include <iostream>
 #include <string>
+#include "roster.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class Team
         string name;                                        //name of team
         int position;                                         //drafting position
         bool user;
-        //need a roster object here
+        Roster roster;
 
     public:
         Team();                                                 //constructors
