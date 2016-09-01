@@ -3,6 +3,7 @@
 #include <fstream>
 #include "team.h" 
 #include "bintree.h"
+#include "draft.h"
 
 using namespace std;
 
@@ -13,12 +14,13 @@ int main()
     int numTeams, numUsers, draftPosition, i, j;
     string teamName;
     Team *arr;
-    BinTree q, r, w, t, d, k;                                           //QB, RB, WR, TE, DE, K
+    BinTree q, r, w, t, d, k;                          //QB, RB, WR, TE, DE, K
     char type;
     NodeData *ptr;
     bool itsIn;
+    Draft draft;
 
-    //-----------------------------------------PART ONE----------------------------------------------------------------------------
+    //-----------------------------------------PART ONE---------------------------------------
     intro();
 
     cin >> numTeams;
@@ -32,7 +34,8 @@ int main()
     cin >> numUsers;
     cin.clear();
     cin.ignore(100, '\n');
-    cout << "Ok, there will be " << numUsers << " users and " << (numTeams - numUsers) << " autopicks" << endl;
+    cout << "Ok, there will be " << numUsers << " users and " << (numTeams - numUsers) 
+    << " autopicks" << endl;
 
     for(i = 0; i < numUsers; i++)
     {
@@ -57,9 +60,9 @@ int main()
     for(i = 0; i < numTeams; i++)
         arr[i].displayBasics();
 
-    //-----------------------------------------------------------------END PART ONE---------------------------------------------------
+    //-------------------------------END PART ONE---------------------------------------------------
     //now read in player list into BSTs
-
+    //----------------------------------PART TWO----------------------------
     ifstream in("players.txt");
     if (!in)
     {
@@ -83,12 +86,11 @@ int main()
         }
         else if(type == 'R')
         {
-            break;
-            // Rb john;
-            // ptr = john.makeFromStream(in);
-            // itsIn = r.insert(ptr);
-            // if(!itsIn)
-            //     delete ptr;
+            Player john;
+            ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
+            itsIn = r.insert(ptr);
+            if(!itsIn)
+                delete ptr;
         }
         else if(type == 'W')
         {
@@ -98,9 +100,13 @@ int main()
             if(!itsIn)
                 delete ptr;
         }
-        else if(type == 'T')
+        else if(type == 'T') 
         {
-            break;
+            Player john;
+            ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
+            itsIn = t.insert(ptr);
+            if(!itsIn)
+                delete ptr;
         }
         else if(type == 'D')
         {
@@ -112,10 +118,18 @@ int main()
         }
     }
 
-    cout << endl;
+    cout << "display running backs" << endl;
+    r.displaySideways();
+    cout << "display wide recievers" << endl;
+    w.displaySideways();
+    cout << "display tight ends" << endl;
+    t.displaySideways();
     in.close();
-    cout << "file closed, program terminated" << endl;
+    cout << "ready for draft" << endl;
+    //---------------------------------END PART TWO----------------------------
+    //--------------------------------PART THREE-----------------------------
 
+    draft.setUp();
 
 }
 
