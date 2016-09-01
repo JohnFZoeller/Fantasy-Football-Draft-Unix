@@ -70,6 +70,7 @@ int main()
     while(!in.eof())
     {
         type = in.get();
+        in.unget();
 
         if(type == 'Q')
         {
@@ -93,10 +94,9 @@ int main()
         {
             Player john;
             ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
-            break;
-            //itsIn = w.insert(ptr);
-            //if(!itsIn)
-                //delete ptr;
+            itsIn = w.insert(ptr);
+            if(!itsIn)
+                delete ptr;
         }
         else if(type == 'T')
         {

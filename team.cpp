@@ -49,12 +49,14 @@ const Team &Team::operator=(const Team &rhs)
         position = rhs.position;
         user = rhs.user;
     }
+    return *this;
 }
 
 bool Team::operator==(const Team &rhs) const
 {
     if(name == rhs.name && position == rhs.position && user == rhs.user)
         return true;
+    else return false;
 }
 
 bool Team::operator!=(const Team &rhs) const

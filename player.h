@@ -9,7 +9,8 @@ using namespace std;
 class Player
 {
     private:
-        string spot, team, first, last;
+        string posit, squad, first, last;
+        int rank;
     public:
     	Player();
 

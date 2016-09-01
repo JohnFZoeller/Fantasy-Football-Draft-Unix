@@ -1,3 +1,3 @@
-W PIT Antonio Brown
-W NYG Odell Beckham
-W ATL Julio Jones
+W 1 PIT Antonio Brown
+W 2 NYG Odell Beckham
+W 3 ATL Julio Jones

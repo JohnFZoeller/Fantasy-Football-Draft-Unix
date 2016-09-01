@@ -1,13 +1,4 @@
-// ------------------------------------------------ nodeData.h ------------------------------------------------------- -
-// John Zoeller, CSS 343 A
-// Creation Date: 1/16/16
-// Date of Last Modification: 3/14/16
-// -------------------------------------------------------------------------------------------------------------------- 
-// Purpose - Outline nodeData class
-// -------------------------------------------------------------------------------------------------------------------- 
-// Notes on specifications, special algorithms, and assumptions:
-//
-// --------------------------------------------------------------------------------------------------------------------
+
 #ifndef NODEDATA_H
 #define NODEDATA_H
 #include <string>
@@ -23,18 +14,20 @@ class NodeData
         string data;
         int inStock;
 
+        int ran;
+        string fir, las, pos, squ;
+
     public:
         NodeData();
         ~NodeData();
         NodeData(const string &);
         NodeData(const string&, int);
         NodeData(const NodeData &);
+        NodeData(const int, const string&, const string&, const string&, const string&);
+
         NodeData& operator=(const NodeData &);
 
-
         bool setData(istream&);
-        int getStock();
-        void setStock(int);
 
         bool operator==(const NodeData &) const;
         bool operator!=(const NodeData &) const;

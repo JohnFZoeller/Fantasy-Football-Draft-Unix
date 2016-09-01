@@ -1,28 +1,21 @@
 #include "player.h"
 
 Player::Player(){
-	spot = team = first = last = "";
+	posit = squad = first = last = "";
+	rank = 0;
 }
 
 NodeData* Player::makeFromStream(istream& in){
-    // int stock;
-    // string director, title, year;
+	getline(in, posit, ' ');
+	in >> rank;
+	in.get();	
+	getline(in, squad, ' ');
+	getline(in, first, ' ');
+	getline(in, last, '\n');
 
-    // in.get();
-    // in.get();
-    // in >> stock;
-    // in.get();
-    // in.get();
-    // getline(in, director, ',');
-    // in.get();
-    // getline(in, title, ',');
-    // in.get();
-    // getline(in, year, '\n');
+	cout << "position = " << posit << " rank = " << rank << " squad = " << squad << " first = " 
+	<< first << " last = " << last << "  " << endl;
 
-    // year.erase(4);
-
-    //NodeData* john = new NodeData(director + " " + title, stock);
-	cout << "make from stream called" << endl;
-	NodeData* john;
+	NodeData* john = new NodeData(rank, first, last, squad, posit);
     return john;
 }
