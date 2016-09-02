@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 #include "team.h" 
 #include "bintree.h"
 #include "draft.h"
@@ -129,7 +130,7 @@ int main()
     //---------------------------------END PART TWO----------------------------
     //--------------------------------PART THREE-----------------------------
 
-    draft.setUp();
+    draft.makeBoard();
 
 }
 

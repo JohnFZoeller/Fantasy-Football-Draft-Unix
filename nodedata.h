@@ -1,4 +1,3 @@
-
 #ifndef NODEDATA_H
 #define NODEDATA_H
 #include <string>
@@ -11,17 +10,12 @@ class NodeData
     friend ostream & operator<<(ostream &, const NodeData &);
 
     private:
-        string data;
-        int inStock;
-
         int ran;
         string fir, las, pos, squ;
 
     public:
         NodeData();
         ~NodeData();
-        NodeData(const string &);
-        NodeData(const string&, int);
         NodeData(const NodeData &);
         NodeData(const int, const string&, const string&, const string&, const string&);
 

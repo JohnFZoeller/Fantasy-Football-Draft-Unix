@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <ctime>
+#include "nodedata.h"
 using namespace std;
 
 class Draft{
@@ -11,21 +13,26 @@ class Draft{
 		struct LinkNode{
 			LinkNode *next;
 			NodeData *pick;
-		}
+		};
 		LinkNode *head;
 
 	public:
 		Draft();
 		~Draft();
 
-		void setUp();
-		void startDraft();
+		//board functions
+		void setUp(); //calls makeboard and newround
+		void startDraft(); //calls display board and new round 
 		void makeBoard();
 		void displayBoard();
 		void newRound();
 		int autoPick();
-		bool insert();
 		bool pick();
+
+		//List functions
+		void insertEnd();
+		void displayList();
+
 
 };
 
