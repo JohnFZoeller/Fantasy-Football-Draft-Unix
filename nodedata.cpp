@@ -1,19 +1,22 @@
 #include "nodedata.h"
 
 //------------------- constructors/destructor  -------------------------------
-NodeData::NodeData() 
-{ 
+NodeData::NodeData() { 
     ran = 0;
-    fir = las = pos = squ = "";
+    fir = "      ";
+    las = "        ";
+    pos = "na";
+    squ = "";
+    taken = false;
 }
 
-NodeData::NodeData(const NodeData& nd) 
-{ 
+NodeData::NodeData(const NodeData& nd) { 
     ran = nd.ran;
     fir = nd.fir;
     las = nd.las;
     pos = nd.pos;
     squ = nd.squ;
+    taken = nd.taken;
 }
 
 NodeData::NodeData(const int r, const string& f, const string& l, const string& s, const string& p){
@@ -22,14 +25,23 @@ NodeData::NodeData(const int r, const string& f, const string& l, const string& 
 	las = l; //last name
 	squ = s; //nfl team
 	pos = p; //position
+    taken = false;
+}
+
+NodeData::NodeData(const int rank){
+    ran = rank;
+    fir = "";
+    las = "";
+    pos = "";
+    squ = "";
+    taken = false;
 }
 
 NodeData::~NodeData() { }
 //--------------------end constructors---------------------------
 
 //------------------------- operators ----------------------------------------
-NodeData& NodeData::operator=(const NodeData& rhs) 
-{
+NodeData& NodeData::operator=(const NodeData& rhs) {
     if (this != &rhs) 
     {
         ran = rhs.ran;
@@ -37,6 +49,7 @@ NodeData& NodeData::operator=(const NodeData& rhs)
         squ = rhs.squ;
         fir = rhs.fir;
         las = rhs.las;
+        taken = rhs.taken;
     }
     return *this;
 }
@@ -76,9 +89,11 @@ bool NodeData::setData(istream& infile) {
 	return !infile.eof();       // eof function is true when eof char is read
 }
 
+bool NodeData::isTaken(){
+    return taken;
+}
 //-------------------------- operator<< --------------------------------------
 ostream& operator<<(ostream& output, const NodeData& nd) {
-	output << nd.fir << " " << nd.las << ". # " << nd.ran
-	<< " : " << nd.squ << endl;
+	output << "#" << nd.ran << " " << nd.pos << " " + nd.fir + " " + nd.las + " " + nd.squ << endl;
 	return output;
 }

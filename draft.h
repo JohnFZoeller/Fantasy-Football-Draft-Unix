@@ -5,7 +5,10 @@
 #include <iomanip>
 #include <string>
 #include <ctime>
+#include <cstdlib>
+#include "bintree.h"
 #include "nodedata.h"
+#include "team.h"
 using namespace std;
 
 class Draft{
@@ -15,23 +18,27 @@ class Draft{
 			NodeData *pick;
 		};
 		LinkNode *head;
+		int numTeams;
 
 	public:
 		Draft();
 		~Draft();
 
+		//getters setters
+		void setNum(int);
+		int getNum();
 		//board functions
 		void setUp(); //calls makeboard and newround
-		void startDraft(); //calls display board and new round 
-		void makeBoard();
-		void displayBoard();
+		void startDraft(Team *arr, BinTree&); //calls display board and new round 
+		void makeBoard(Team *arr);
 		void newRound();
-		int autoPick();
-		bool pick();
+		void autoPick(Team, BinTree&);
+		void pick(Team, BinTree&);
 
 		//List functions
 		void insertEnd();
 		void displayList();
+		bool editNode(NodeData*);
 
 
 };

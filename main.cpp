@@ -12,13 +12,15 @@ void intro();
 
 int main()
 {
+    //primitives
     int numTeams, numUsers, draftPosition, i, j;
-    string teamName;
-    Team *arr;
-    BinTree q, r, w, t, d, k;                          //QB, RB, WR, TE, DE, K
-    char type;
-    NodeData *ptr;
     bool itsIn;
+    char type;
+    string teamName;
+    //abstracts
+    Team *arr;
+    BinTree q, r, w, t, d, k, all;                          //QB, RB, WR, TE, DE, K
+    NodeData *ptr;
     Draft draft;
 
     //-----------------------------------------PART ONE---------------------------------------
@@ -30,6 +32,7 @@ int main()
     cout << endl << "Ok, there will be " << numTeams << " teams. " << endl << endl;
 
     arr = new Team[numTeams];
+    draft.setNum(numTeams);
 
     cout << "How many of those teams will be controlled by users (vs autopick) ? ";
     cin >> numUsers;
@@ -89,7 +92,7 @@ int main()
         {
             Player john;
             ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
-            itsIn = r.insert(ptr);
+            itsIn = all.insert(ptr);
             if(!itsIn)
                 delete ptr;
         }
@@ -97,7 +100,7 @@ int main()
         {
             Player john;
             ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
-            itsIn = w.insert(ptr);
+            itsIn = all.insert(ptr); //used to be w.insert
             if(!itsIn)
                 delete ptr;
         }
@@ -105,7 +108,7 @@ int main()
         {
             Player john;
             ptr = john.makeFromStream(in);  //in player.h, need: Nodedata *makeFromStream();
-            itsIn = t.insert(ptr);
+            itsIn = all.insert(ptr);    //used to be t.insert
             if(!itsIn)
                 delete ptr;
         }
@@ -119,18 +122,14 @@ int main()
         }
     }
 
-    cout << "display running backs" << endl;
-    r.displaySideways();
-    cout << "display wide recievers" << endl;
-    w.displaySideways();
-    cout << "display tight ends" << endl;
-    t.displaySideways();
     in.close();
     cout << "ready for draft" << endl;
     //---------------------------------END PART TWO----------------------------
     //--------------------------------PART THREE-----------------------------
 
-    draft.makeBoard();
+    draft.setUp();
+    draft.makeBoard(arr);
+    draft.startDraft(arr, all);
 
 }
 

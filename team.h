@@ -24,6 +24,8 @@ class Team
         bool getUser();
         void setPosition(int);
         int getPosition();
+        void setName(string);
+        string getName();
 
         const Team &operator=(const Team&rhs);          //overloads
         bool operator==(const Team &) const;

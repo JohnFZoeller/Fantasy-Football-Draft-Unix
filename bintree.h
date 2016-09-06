@@ -32,7 +32,8 @@ class BinTree
 
     //PRIVATE HELPERS
     void inorderHelper(NodeData*arr[], int &index, Node *node) const;
-    void sideways(Node*, int) const;        
+    void sideways(Node*, int) const;
+    void available(Node*) const;        
     void makeEmpty(Node*);
     Node *balancedBuild(NodeData *arr[], int, int) const;
     Node *deepCop(const Node *sub) const;
@@ -41,6 +42,7 @@ class BinTree
     int getH(Node *sub) const;
     int leafHelper(Node*) const;
     string displayHelp(string, Node *node) const;
+
 
     //NEW INSERT
 
@@ -79,6 +81,7 @@ class BinTree
 
         //DISPLAY SIDEWAYS
         void displaySideways() const;
+        void displayAvailable() const;
 };
 
 #endif

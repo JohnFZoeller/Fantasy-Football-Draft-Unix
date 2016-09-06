@@ -87,16 +87,14 @@ BinTree::Node* BinTree::deepCop(const Node *sub) const
 // ------------------------------------Destructor----------------------------------------------- 
 // Description: call makeEmpty
 // -------------------------------------------------------------------------------------------------------------
-BinTree::~BinTree()
-{
+BinTree::~BinTree(){
     makeEmpty();
 }
 
 // ------------------------------------MakeEmpty----------------------------------------------- 
 // Description: calls recursive makeEmpty
 // -------------------------------------------------------------------------------------------------------------
-void BinTree::makeEmpty()
-{
+void BinTree::makeEmpty(){
     makeEmpty(root);
 }
 
@@ -175,8 +173,7 @@ bool BinTree::insert(NodeData* str)
 // ------------------------------------Equals Operator----------------------------------------------- 
 // Description: calls recursive compare function
 // -------------------------------------------------------------------------------------------------------------
-bool BinTree::operator==(const BinTree &rhs) const
-{
+bool BinTree::operator==(const BinTree &rhs) const {
     return compare(root, rhs.root);
 }
 
@@ -215,10 +212,10 @@ bool BinTree::compare(const Node *john, const Node *zoeller) const
 bool BinTree::retrieve(const NodeData &key, NodeData* &p) const
 {
     Node *node = this->root;
-    Node *pointer = retr(key, node);
+    Node *pointer = retr(key, node);  //retrieve this key starting from the root at node
 
     if(pointer != NULL)
-        p = pointer->data;
+        p = pointer->data; //data is nodeData object
     else return false;
 
     return true;
@@ -384,5 +381,20 @@ void BinTree::sideways(Node* current, int level) const
 
         cout << *current->data << endl;        // display information of object
         sideways(current->left, level);
+    }
+}
+
+void BinTree::displayAvailable() const{
+    available(root);
+}
+
+void BinTree::available(Node* current) const {
+    if(current != NULL){
+        available(current->left);
+
+        if(!current->data->isTaken())
+            cout << *current->data;
+
+        available(current->right);
     }
 }
