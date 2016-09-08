@@ -2,6 +2,8 @@
 
 Notes: Obviously a bst isn't a good idea for this project since player rankings are pretty much everything in fantasy football.  However, since I already have a bst implementation from an earlier class, I'll work with it until the very end when I will switch to a 2-3 tree.
 
+Notes(9/8): Switching out the bst for a vector so that I can write the autopick function for the computer. Going to have to implement the b+ tree completely from scratch and ive never done it before- so my plan is to get all the functionality down and then switch to the b+ tree. 
+
 The goal here is going to be to make a fantasy football draft machine that runs on the command line.   This is going
 to be really similar to other fantasy football draft machines such as ESPN's or YAHOO's.
 
