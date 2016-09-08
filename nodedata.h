@@ -24,7 +24,8 @@ class NodeData
         NodeData& operator=(const NodeData &);
 
         bool setData(istream&);
-        bool isTaken();
+        bool getTaken();
+        void setTaken(bool);
 
         bool operator==(const NodeData &) const;
         bool operator!=(const NodeData &) const;

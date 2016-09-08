@@ -1,6 +1,9 @@
 #include "roster.h"
 
 Roster::Roster(){
-	players = NULL;
-	id = -1;
+	players = new Player[16];
+}
+
+void Roster::add(NodeData* adding){
+	cout << "player added" << endl;
 }

@@ -392,8 +392,9 @@ void BinTree::available(Node* current) const {
     if(current != NULL){
         available(current->left);
 
-        if(!current->data->isTaken())
+        if(!current->data->getTaken()){
             cout << *current->data;
+        }
 
         available(current->right);
     }

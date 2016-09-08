@@ -10,7 +10,7 @@ class Team
 {
     private:
         string name;                                        //name of team
-        int position;                                         //drafting position
+        int setPosition;                                         //drafting position
         bool user;
         Roster roster;
 

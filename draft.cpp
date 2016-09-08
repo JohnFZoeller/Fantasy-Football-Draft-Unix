@@ -70,10 +70,11 @@ void Draft::makeBoard(Team *arr){
 }
 
 void Draft::newRound(){
-	for(int i = 0; i < 10; i++)
-		insertEnd();
+	//for(int i = 0; i < 10; i++)
+		//insertEnd();
 }
 
+//autopick is gonna be on hold until i get a b+ implementation 
 void Draft::autoPick(Team comp, BinTree& a){
 	int random = rand() % 100;
 	int rank;
@@ -85,15 +86,13 @@ void Draft::autoPick(Team comp, BinTree& a){
 	//implement the autopick algorithm
 		//choosing from next 5 players 1 = 70%; 2 = 15%; 3 = 7.5%; 4 = 5%; 5 = 2.5%
 	if(random < 70){
-		rank = 1;
-		//key = new NodeData(rank);
-		//found = tree.retrieve(key, ptr); //ptr is what it gets stored to, its a nodeData object
+		rank = 1; //best available
 	}
 	else if(random >= 70 && random < 85){
-		rank = 2;
+		rank = 2; //second best available
 	}
 	else if(random >= 85 && random < 92){
-		rank = 3;
+		rank = 3; //third best available
 	}
 	else if(random >= 92 && random < 97){
 		rank = 4;
@@ -101,14 +100,14 @@ void Draft::autoPick(Team comp, BinTree& a){
 	else if(random >= 97){
 		rank = 5;
 	}
-	//retieve selected player from bst	
-	//insert to linked list
-	//output pick
+
 }
 
 void Draft::pick(Team user, BinTree& a){
 	int rank;
 	bool found = false;
+	NodeData *ptr;
+	char yesNo;
 
 	cout << endl << "Next 20 available: " << endl;
 
@@ -117,16 +116,34 @@ void Draft::pick(Team user, BinTree& a){
 		//-pause
 		//-10 more
 	cout << endl << "Please enter the number corresponding to the player you want: ";
-
-
 	cin >> rank;
+	cin.clear();
+	cin.ignore(100, '\n');
+
+	NodeData key(rank);
+	found = a.retrieve(key, ptr);
+
+	if(found){
+		cout << "You chose " << *ptr << " Pick this player? (y/n): ";
+		//cin >> yesNo;
+		//if(!yesNo){//prompt to repick;} else {
+		ptr->setTaken(true);
+		insertEnd(ptr);
+		user.roster.add(ptr); //look up friedn function styff
+		//insert into team roster
+		//output pick
+	}
+	else{
+		cout << "player not available" << endl;
+	}
+
 }
 
 //------------------------------Linked List functions------------------------------
-void Draft::insertEnd(){ //change to insertEnd(NodeData* insert){}
+void Draft::insertEnd(NodeData* inserting){
 	LinkNode *ptr = new LinkNode;
 	ptr->next = NULL;
-	ptr->pick = new NodeData; //change to ptr->pick = insert;
+	ptr->pick = inserting;
 
 	if(head == NULL)
 		head = ptr;	
@@ -154,46 +171,5 @@ bool Draft::editNode(NodeData *edit){
 	return true;
 }
 
-/*
-	//TEAMS
-	int j = 0;
-	for(; j < 2; j++){
-		cout <<  setw(4) << '|';
-		for(int i = 0; i < 10; i++){
-			if(j == 0)
-				cout << "team " << (i + 1) << setw(4) << '|';
-			else if(j == 1)
-				cout << arr[i].getName() << setw(6) << '|';
-		}
-		cout << endl;
-	}
-	cout << line + line << endl;
-
-	j = 0;
-	//ROUNDS : k = 3 rounds at a time; j = 2 lines per pick; i = 10
-		for(; j < 2; j++){
-			if(j == 0){			//ROUND COUNTER
-				cout << 1;
-			}
-			else if(j == 1){
-				cout << " ";
-			}
-			cout << setw(3) << '|';
-								//END ROUND COUNTER
-			
-			for(; ptr->next != NULL; ptr = ptr->next){
-				if(j == 0){
-					cout << setw(10) << '|';
-				}
-				else if(j == 1){
-					//need to post the contents of the linked list in ascending order
-
-					cout << "john" << ptr->pick << '|';
-				}
-			cout << endl;
-		}
-
-		cout << thin + thin << endl;
-*/
 
 

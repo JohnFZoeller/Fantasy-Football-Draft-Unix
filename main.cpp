@@ -6,6 +6,8 @@
 #include "bintree.h"
 #include "draft.h"
 
+#include <vector>
+
 using namespace std;
 
 void intro();

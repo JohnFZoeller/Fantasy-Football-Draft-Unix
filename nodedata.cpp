@@ -89,8 +89,12 @@ bool NodeData::setData(istream& infile) {
 	return !infile.eof();       // eof function is true when eof char is read
 }
 
-bool NodeData::isTaken(){
+bool NodeData::getTaken(){
     return taken;
+}
+
+void NodeData::setTaken(bool set){
+    taken = set;
 }
 //-------------------------- operator<< --------------------------------------
 ostream& operator<<(ostream& output, const NodeData& nd) {

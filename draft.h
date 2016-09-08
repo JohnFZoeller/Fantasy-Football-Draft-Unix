@@ -9,6 +9,9 @@
 #include "bintree.h"
 #include "nodedata.h"
 #include "team.h"
+
+#include <vector>
+
 using namespace std;
 
 class Draft{
@@ -36,7 +39,7 @@ class Draft{
 		void pick(Team, BinTree&);
 
 		//List functions
-		void insertEnd();
+		void insertEnd(NodeData*);
 		void displayList();
 		bool editNode(NodeData*);
 
