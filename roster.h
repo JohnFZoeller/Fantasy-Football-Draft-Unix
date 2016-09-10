@@ -15,6 +15,8 @@ class Roster
         Roster();
 
         void add(NodeData*);
+        void displayRoster();
+     	void toBench(NodeData*);
 
 };
 

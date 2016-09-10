@@ -96,6 +96,10 @@ bool NodeData::getTaken(){
 void NodeData::setTaken(bool set){
     taken = set;
 }
+
+char NodeData::getPos(){
+    return pos[0];
+}
 //-------------------------- operator<< --------------------------------------
 ostream& operator<<(ostream& output, const NodeData& nd) {
 	output << "#" << nd.ran << " " << nd.pos << " " + nd.fir + " " + nd.las + " " + nd.squ << endl;

@@ -26,6 +26,12 @@ class NodeData
         bool setData(istream&);
         bool getTaken();
         void setTaken(bool);
+        char getPos();
+        string getFirst(){return fir;}
+        string getLast(){return las;}
+        string getPosition(){return pos;}
+        string getSquad(){return squ;}
+        int getRank(){return ran;}
 
         bool operator==(const NodeData &) const;
         bool operator!=(const NodeData &) const;

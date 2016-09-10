@@ -14,7 +14,12 @@ class Player
     public:
     	Player();
 
+    	int getRank();
+
     	NodeData *makeFromStream(istream &in);
+    	void toPlayer(NodeData*);
+    	void playerInfo();
+
 };
 
 #endif

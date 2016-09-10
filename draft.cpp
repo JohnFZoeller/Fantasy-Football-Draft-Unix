@@ -22,21 +22,51 @@ void Draft::setUp(){
 	cin >> uTime;
 	cin.clear();
 	cin.ignore(100, '\n');
+
+	while(uTime > 45 || uTime < 15){
+		cout << "Must choose between 15-45 seconds: ";
+		cin >> uTime;
+		cin.clear();
+		cin.ignore(100, '\n');
+	}
+
 	cout << endl << "How much time for the computer? (seconds 0-5): ";
 	cin >> cTime;
+	cin.clear();
+	cin.ignore(100, '\n');
+
+	while(cTime < 0 || cTime > 5){
+		cout << "Must be between 0 and 5: ";
+		cin >> cTime;
+		cin.clear();
+		cin.ignore(100, '\n');
+	}
 	cout << endl;
 }
 
-void Draft::startDraft(Team *arr, BinTree& a){
+void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
+	char newRound;
 	srand(time(0));
 
-	for(int i = 0; i < 10; i++){
-		if(arr[i].getUser()){
-			pick(arr[i], a);
+	while(true){
+		for(int i = 0; i < nTeams; i++){
+			if(arr[i].getUser())
+				pick(arr[i], a);
+			else if(!arr[i].getUser())
+				autoPick(arr[i], a);
 		}
-		else if(!arr[i].getUser()){
-			autoPick(arr[i], a);
+		for(int i = (nTeams - 1); i > -1; i--){
+			if(arr[i].getUser())
+				pick(arr[i], a);
+			else if(!arr[i].getUser())
+				autoPick(arr[i], a);
 		}
+		cout << endl << "KEEP GOING? (y/n): ";
+		cin >> newRound;
+		cin.clear();
+		cin.ignore(100, '\n');
+		if(tolower(newRound) == 'n')
+			break;
 	}
 }
 
@@ -75,68 +105,136 @@ void Draft::newRound(){
 }
 
 //autopick is gonna be on hold until i get a b+ implementation 
-void Draft::autoPick(Team comp, BinTree& a){
+void Draft::autoPick(Team computer, vector<NodeData*>& a){
 	int random = rand() % 100;
-	int rank;
-	bool found = false;
-	NodeData *ptr;
-	NodeData *key;
+	int counter = 0;
 
-	cout << "Team " << comp.getPosition() << ": ";
-	//implement the autopick algorithm
-		//choosing from next 5 players 1 = 70%; 2 = 15%; 3 = 7.5%; 4 = 5%; 5 = 2.5%
+	cout << "Team " << computer.getPosition() << ": ";
+
 	if(random < 70){
-		rank = 1; //best available
+		for(int i = 0; i < a.size(); i++){
+			if(!a[i]->getTaken()){
+				a[i]->setTaken(true);
+				insertEnd(a[i]);
+				computer.roster.add(a[i]);
+				break;
+			}
+		}
 	}
 	else if(random >= 70 && random < 85){
-		rank = 2; //second best available
+		for(int i = 0; i < a.size(); i++){
+			if(!a[i]->getTaken() && counter == 1){
+				a[i]->setTaken(true);
+				insertEnd(a[i]);
+				computer.roster.add(a[i]);
+				break;
+			}
+			else if(!a[i]->getTaken() && counter == 0){
+				counter++;
+			}
+		}
 	}
 	else if(random >= 85 && random < 92){
-		rank = 3; //third best available
+		for(int i = 0; i < a.size(); i++){
+			if(!a[i]->getTaken() && counter == 2){
+				a[i]->setTaken(true);
+				insertEnd(a[i]);
+				computer.roster.add(a[i]);
+				break;
+			}
+			else if(!a[i]->getTaken() && counter != 2){
+				counter++;
+			}
+		}
 	}
 	else if(random >= 92 && random < 97){
-		rank = 4;
+		for(int i = 0; i < a.size(); i++){
+			if(!a[i]->getTaken() && counter == 3){
+				a[i]->setTaken(true);
+				insertEnd(a[i]);
+				computer.roster.add(a[i]);
+				break;
+			}
+			else if(!a[i]->getTaken() && counter != 3){
+				counter++;
+			}
+		}
 	}
 	else if(random >= 97){
-		rank = 5;
+		for(int i = 0; i < a.size(); i++){
+			if(!a[i]->getTaken() && counter == 4){
+				a[i]->setTaken(true);
+				insertEnd(a[i]);
+				computer.roster.add(a[i]);
+				break;
+			}
+			else if(!a[i]->getTaken() && counter != 4){
+				counter++;
+			}
+		}
 	}
 
 }
 
-void Draft::pick(Team user, BinTree& a){
+void Draft::pick(Team user, vector<NodeData*>& a){
+	char yesNo;
 	int rank;
-	bool found = false;
-	NodeData *ptr;
+
+	nextTen(a);
+	//user options
+		//-pause the draft
+		//-view my team
+		//-view another team
+		//-view draft board
+
+	while(true){
+		cout << endl << "Please enter the number corresponding to the player you want: ";
+		cin >> rank;
+		cin.clear();
+		cin.ignore(100, '\n');
+
+		if(!a[rank - 1]->getTaken()){
+			cout << "You chose " << *a[rank - 1] << " Pick this player? (y/n): ";
+			cin >> yesNo;
+			cin.clear();
+			cin.ignore(100, '\n');
+			if(tolower(yesNo) == 'y'){
+				break;
+			}
+		}
+		else if(a[rank - 1]->getTaken()){
+			cout << "Player not available, choose again. " << endl;
+		}
+	}
+
+	a[rank - 1]->setTaken(true);
+	insertEnd(a[rank - 1]);
+	user.roster.add(a[rank - 1]);
+}
+
+void Draft::nextTen(vector<NodeData*>& a){
+	int i = 0, morePlayers = 10;
 	char yesNo;
 
-	cout << endl << "Next 20 available: " << endl;
+	cout << endl << "Next 10 available: " << endl;
 
-	a.displayAvailable();
-	//user options
-		//-pause
-		//-10 more
-	cout << endl << "Please enter the number corresponding to the player you want: ";
-	cin >> rank;
-	cin.clear();
-	cin.ignore(100, '\n');
+	while(true){
+		for(; i < morePlayers; i++){
+			if(!a[i]->getTaken()){
+				cout << *a[i];
+			}
+			else if(a[i]->getTaken())
+				morePlayers++;
+		}
 
-	NodeData key(rank);
-	found = a.retrieve(key, ptr);
-
-	if(found){
-		cout << "You chose " << *ptr << " Pick this player? (y/n): ";
-		//cin >> yesNo;
-		//if(!yesNo){//prompt to repick;} else {
-		ptr->setTaken(true);
-		insertEnd(ptr);
-		user.roster.add(ptr); //look up friedn function styff
-		//insert into team roster
-		//output pick
+		cout << "Display 10 more? (y/n): ";
+		cin >> yesNo;
+		cin.clear();
+		cin.ignore(100, '\n');
+		if(tolower(yesNo) == 'n')
+			break;
+		morePlayers += 10;
 	}
-	else{
-		cout << "player not available" << endl;
-	}
-
 }
 
 //------------------------------Linked List functions------------------------------

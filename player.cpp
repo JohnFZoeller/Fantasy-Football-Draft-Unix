@@ -5,6 +5,10 @@ Player::Player(){
 	rank = 0;
 }
 
+int Player::getRank(){
+	return rank;
+}
+
 NodeData* Player::makeFromStream(istream& in){
 	getline(in, posit, ' ');
 	in >> rank;
@@ -15,4 +19,16 @@ NodeData* Player::makeFromStream(istream& in){
 
 	NodeData* john = new NodeData(rank, first, last, squad, posit);
     return john;
+}
+
+void Player::toPlayer(NodeData* change){
+	posit = change->getPosition();
+	squad = change->getSquad();
+	first = change->getFirst();
+	last = change->getLast();
+	rank = change->getRank();
+}
+
+void Player::playerInfo(){
+	cout << posit + " " + squad + " " + first + " " + last + " " << endl;
 }

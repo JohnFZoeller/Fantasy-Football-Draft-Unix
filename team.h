@@ -3,14 +3,16 @@
 #include <iostream>
 #include <string>
 #include "roster.h"
+#include <vector>
 
 using namespace std;
 
 class Team
 {
+    friend class Draft;
     private:
         string name;                                        //name of team
-        int setPosition;                                         //drafting position
+        int position;                                         //drafting position
         bool user;
         Roster roster;
 
