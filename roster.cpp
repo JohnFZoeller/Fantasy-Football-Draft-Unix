@@ -19,23 +19,23 @@ void Roster::add(NodeData* adding){
 		case 'W' :	{	if(players[4].getRank() == 0) players[4].toPlayer(adding);
 						else if(players[5].getRank() == 0) players[5].toPlayer(adding);
 						else toBench(adding);
-						cout << *adding << endl;
+						cout << *adding;
 						break;
 					}
 		case 'R' :	{	if(players[1].getRank() == 0) players[1].toPlayer(adding);
 						else if(players[2].getRank() == 0) players[2].toPlayer(adding);
 						else toBench(adding);
-						cout << *adding << endl;
+						cout << *adding;
 						break;
 					}
 		case 'T' :	{	if(players[6].getRank() == 0) players[6].toPlayer(adding);
 						else toBench(adding);
-						cout << *adding << endl;
+						cout << *adding;
 						break;
 					}
 		case 'Q' :	{	if(players[0].getRank() == 0) players[0].toPlayer(adding);
 						else toBench(adding);
-						cout << *adding << endl;
+						cout << *adding;
 						break;
 
 					}

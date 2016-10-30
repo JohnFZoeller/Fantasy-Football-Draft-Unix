@@ -3,8 +3,11 @@
 #include <fstream>
 #include <iomanip>
 #include "team.h" 
-#include "bintree.h"
 #include "draft.h"
+#include "bPlus.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include <vector>
 
@@ -22,10 +25,9 @@ int main()
 
     //abstracts
     Team *arr;
-    BinTree q, r, w, t, d, k, all; 
     NodeData *ptr;
     Draft draft;
-
+    bPlus tree;
     vector <NodeData*> allV;
 
 
@@ -90,123 +92,66 @@ int main()
         if(arr[j].getUser() == false)
             arr[j] = Team("auto", (j + 1), false);
 
-    // for(i = 0; i < numTeams; i++)
-    //     arr[i].displayBasics();
+
+    //----------------------------ADD SHELL SCRIPT HERE----------------------
+        //wget player list
+        //awk to format into text file for use.
+    //----------------------------END SHELL SCRIPT---------------------------
+
 
     //-------------------------------END PART ONE----------------------------
-    //now read in player list into BSTs
+    //now read in player list into vector, will be b+ tree once thats done
     //----------------------------------PART TWO----------------------------
     ifstream in("players.txt");
-    if (!in)
-    {
+    
+    if (!in){
         cout << "File could not be opened." << endl;
         return 1;
     }
-    //factory later....... for now this is fine..
-    while(!in.eof())
-    {
+
+    while(!in.eof()){
         type = in.get();
         in.unget();
 
-        if(type == 'Q')
-        {
-            break;
-            // Qb john;
-            // ptr = john.makeFromStream(in);
-            // itsIn = com.insert(ptr);
-            // if(!itsIn)
-            //     delete ptr;
-        }
-        else if(type == 'R')
-        {
-            Player john;
-            ptr = john.makeFromStream(in);
+        Player john;
+        ptr = john.makeFromStream(in);
 
-            for(int i = 0; i < allV.size(); i++){
-                if(ptr == allV[i])
-                    delete ptr;
-            }
-            if(ptr != NULL)
-                allV.push_back(ptr);
-            // itsIn = all.insert(ptr);
-            // if(!itsIn)
-            //     delete ptr;
+        for(int i = 0; i < allV.size(); i++){
+            if(ptr == allV[i])
+                delete ptr;
         }
-        else if(type == 'W')
-        {
-            Player john;
-            ptr = john.makeFromStream(in);
-
-            for(int i = 0; i < allV.size(); i++){
-                if(ptr == allV[i])
-                    delete ptr;
-            }
-            if(ptr != NULL)
-                allV.push_back(ptr);
-
-        }
-        else if(type == 'T') 
-        {
-            Player john;
-            ptr = john.makeFromStream(in);  //in player.h, 
-
-            for(int i = 0; i < allV.size(); i++){
-                if(ptr == allV[i])
-                    delete ptr;
-            }
-            if(ptr != NULL)
-                allV.push_back(ptr);
-
-        }
-        else if(type == 'D')
-        {
-            break;
-        }
-        else if(type == 'K')
-        {
-            break;
-        }
+        if(ptr != NULL)
+            allV.push_back(ptr);
+        // itsIn = all.insert(ptr);
+        // if(!itsIn)
+        //     delete ptr;
     }
 
-    
-    cout << "ready for draft" << endl;
     //---------------------------------END PART TWO----------------------------
     //--------------------------------PART THREE-----------------------------
 
     draft.setUp();
-    draft.makeBoard(arr);
+    draft.makeBoard(arr, numTeams);
     draft.startDraft(arr, allV, numTeams);
 
 }
 
 void intro()
 {
-        cout << "-------------------------------------------------" << endl;
-        cout << "-------------------------------------------------" << endl;
-        cout << "Welcome to The Draft Machine. "
-        << "Default teams consist of: " << endl 
-        << "1 Quarterback" << endl
-        << "2 Running backs" << endl
-        << "2 Wide Recievers " << endl
-        << "1 Flex" << endl
-        << "1 Tight End " << endl
-        << "1 Defense " << endl
-        << "1 Kicker" << endl
-        << "8 Bench spots" << endl << endl
-        << "How many teams will there be? (4-12):  ";
+	system("sh clear.sh");
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "           FANTASY FOOTBALL DRAFT SIMULATOR - JOHN ZOELLER" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "Welcome to The Draft Machine. "
+    << "Default teams consist of: " << endl 
+    << "1 Quarterback" << endl
+    << "2 Running backs" << endl
+    << "2 Wide Recievers " << endl
+    << "1 Flex" << endl
+    << "1 Tight End " << endl
+    << "1 Defense " << endl
+    << "1 Kicker" << endl
+    << "8 Bench spots" << endl << endl
+    << "How many teams will there be? (4-12):  ";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

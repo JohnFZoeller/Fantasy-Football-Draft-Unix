@@ -3,6 +3,7 @@
 Draft::Draft(){
 	head = NULL;
 	numTeams = 0;
+	compTime = userTime = 0;
 }
 
 Draft::~Draft(){}
@@ -18,6 +19,8 @@ int Draft::getNum(){
 void Draft::setUp(){
 	int uTime, cTime;
 
+	cout << endl << "Draft Time Settings:" << endl;
+
 	cout << "How much time would you like per draft pick? (seconds 15-45): ";
 	cin >> uTime;
 	cin.clear();
@@ -29,7 +32,8 @@ void Draft::setUp(){
 		cin.clear();
 		cin.ignore(100, '\n');
 	}
-
+	userTime = uTime * 1000000;
+	//-------------user time ^^^   comp time vvv--------------------
 	cout << endl << "How much time for the computer? (seconds 0-5): ";
 	cin >> cTime;
 	cin.clear();
@@ -41,7 +45,11 @@ void Draft::setUp(){
 		cin.clear();
 		cin.ignore(100, '\n');
 	}
-	cout << endl;
+	compTime = cTime * 1000000;
+
+	cout << endl << "PLEASE FULLSCREEN YOUR TERMINAL WINDOW" << endl;
+	usleep(3000000);
+
 }
 
 void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
@@ -53,13 +61,13 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
 			if(arr[i].getUser())
 				pick(arr[i], a);
 			else if(!arr[i].getUser())
-				autoPick(arr[i], a);
+				autoP(arr[i], a);
 		}
 		for(int i = (nTeams - 1); i > -1; i--){
 			if(arr[i].getUser())
 				pick(arr[i], a);
 			else if(!arr[i].getUser())
-				autoPick(arr[i], a);
+				autoP(arr[i], a);
 		}
 		cout << endl << "KEEP GOING? (y/n): ";
 		cin >> newRound;
@@ -72,10 +80,20 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
 
 /*The idea is to always display the last three rounds.
 */
-void Draft::makeBoard(Team *arr){
-	string line = "====================================================";
-	string thin = "----------------------------------------------------";
+void Draft::makeBoard(Team *arr, int teams){
+	string line = "===================================================================";
+	string thin = "-------------------------------------------------------------------";
 	int i = 0;
+	unsigned int millis = 1000000;
+
+	cout << "Ready?" << endl;
+	usleep(millis);
+	cout << "Set" << endl;
+	usleep(millis);
+	cout << "GO!" << endl;
+
+	system("sh clear.sh");
+
 
 	//BOARD TITLE - put the timer next to the name
 	cout << line + line << endl;
@@ -87,11 +105,11 @@ void Draft::makeBoard(Team *arr){
 	int j = 0;
 	for(; j < 2; j++){
 		cout <<  setw(4) << '|';
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < teams; i++){
 			if(j == 0)
-				cout << "team " << (i + 1) << setw(4) << '|';
+				cout << "team " << (i + 1) << setw(6) << '|';
 			else if(j == 1)
-				cout << arr[i].getName() << setw(6) << '|';
+				cout << arr[i].getName() << setw(8) << '|';
 		}
 		cout << endl;
 	}
@@ -104,77 +122,37 @@ void Draft::newRound(){
 		//insertEnd();
 }
 
-//autopick is gonna be on hold until i get a b+ implementation 
-void Draft::autoPick(Team computer, vector<NodeData*>& a){
+void Draft::autoP(Team computer, vector<NodeData*>& a){
 	int random = rand() % 100;
 	int counter = 0;
+	int skipNum = 0;
 
-	cout << "Team " << computer.getPosition() << ": ";
+	if(random < 70)
+		skipNum = 0;
+	else if(random >= 70 && random < 85)
+		skipNum = 1;
+	else if(random > 85)
+		skipNum = 2;
 
-	if(random < 70){
-		for(int i = 0; i < a.size(); i++){
-			if(!a[i]->getTaken()){
+	for(int i = 0; i < a.size(); i++){
+		if(!a[i]->getTaken()){
+			if(counter == skipNum){
 				a[i]->setTaken(true);
 				insertEnd(a[i]);
 				computer.roster.add(a[i]);
+				toBoard();
 				break;
 			}
+			else counter++;
 		}
 	}
-	else if(random >= 70 && random < 85){
-		for(int i = 0; i < a.size(); i++){
-			if(!a[i]->getTaken() && counter == 1){
-				a[i]->setTaken(true);
-				insertEnd(a[i]);
-				computer.roster.add(a[i]);
-				break;
-			}
-			else if(!a[i]->getTaken() && counter == 0){
-				counter++;
-			}
-		}
-	}
-	else if(random >= 85 && random < 92){
-		for(int i = 0; i < a.size(); i++){
-			if(!a[i]->getTaken() && counter == 2){
-				a[i]->setTaken(true);
-				insertEnd(a[i]);
-				computer.roster.add(a[i]);
-				break;
-			}
-			else if(!a[i]->getTaken() && counter != 2){
-				counter++;
-			}
-		}
-	}
-	else if(random >= 92 && random < 97){
-		for(int i = 0; i < a.size(); i++){
-			if(!a[i]->getTaken() && counter == 3){
-				a[i]->setTaken(true);
-				insertEnd(a[i]);
-				computer.roster.add(a[i]);
-				break;
-			}
-			else if(!a[i]->getTaken() && counter != 3){
-				counter++;
-			}
-		}
-	}
-	else if(random >= 97){
-		for(int i = 0; i < a.size(); i++){
-			if(!a[i]->getTaken() && counter == 4){
-				a[i]->setTaken(true);
-				insertEnd(a[i]);
-				computer.roster.add(a[i]);
-				break;
-			}
-			else if(!a[i]->getTaken() && counter != 4){
-				counter++;
-			}
-		}
-	}
-
 }
+
+void Draft::toBoard(){
+//could add to board queue so that when the round is finished you can complete output
+	//output name to first column
+}
+
 
 void Draft::pick(Team user, vector<NodeData*>& a){
 	char yesNo;
@@ -268,6 +246,4 @@ bool Draft::editNode(NodeData *edit){
 	//then the draft board is updated to reflect the change
 	return true;
 }
-
-
 
