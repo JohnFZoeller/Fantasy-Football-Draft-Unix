@@ -6,6 +6,8 @@ Notes(9/8): Switching out the bst for a vector so that I can write the autopick 
 
 Notes(9/9): Semi-working version available, but without b+ tree yet.  Just started that implementation. 
 
+Notes(10/29):  Free day before i start studying for midterms, cleaned some things up, added some time delays.  Downloaded the ncurses library in order to make my draft board.  So thats the next thing.  Ive decided to put the B+ tree on hold until the draft looks perfect with just the vector.  
+
 
 The goal here is going to be to make a fantasy football draft machine that runs on the command line.   This is going
 to be really similar to other fantasy football draft machines such as ESPN's or YAHOO's.
