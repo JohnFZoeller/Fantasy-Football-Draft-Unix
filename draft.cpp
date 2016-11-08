@@ -33,6 +33,7 @@ void Draft::setUp(){
 		cin.ignore(100, '\n');
 	}
 	userTime = uTime * 1000000;
+
 	//-------------user time ^^^   comp time vvv--------------------
 	cout << endl << "How much time for the computer? (seconds 0-5): ";
 	cin >> cTime;
@@ -49,33 +50,6 @@ void Draft::setUp(){
 
 	cout << endl << "PLEASE FULLSCREEN YOUR TERMINAL WINDOW" << endl;
 	usleep(3000000);
-
-}
-
-void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
-	char newRound;
-	srand(time(0));
-
-	while(true){
-		for(int i = 0; i < nTeams; i++){
-			if(arr[i].getUser())
-				pick(arr[i], a);
-			else if(!arr[i].getUser())
-				autoP(arr[i], a);
-		}
-		for(int i = (nTeams - 1); i > -1; i--){
-			if(arr[i].getUser())
-				pick(arr[i], a);
-			else if(!arr[i].getUser())
-				autoP(arr[i], a);
-		}
-		cout << endl << "KEEP GOING? (y/n): ";
-		cin >> newRound;
-		cin.clear();
-		cin.ignore(100, '\n');
-		if(tolower(newRound) == 'n')
-			break;
-	}
 }
 
 /*The idea is to always display the last three rounds.
@@ -114,7 +88,32 @@ void Draft::makeBoard(Team *arr, int teams){
 		cout << endl;
 	}
 	cout << line + line << endl;
-	//END DRAFT ORDER
+}
+
+void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams){
+	char newRound;
+	srand(time(0));
+
+	while(true){
+		for(int i = 0; i < nTeams; i++){
+			if(arr[i].getUser())
+				pick(arr[i], a);
+			else if(!arr[i].getUser())
+				autoP(arr[i], a);
+		}
+		for(int i = (nTeams - 1); i > -1; i--){
+			if(arr[i].getUser())
+				pick(arr[i], a);
+			else if(!arr[i].getUser())
+				autoP(arr[i], a);
+		}
+		cout << endl << "KEEP GOING? (y/n): ";
+		cin >> newRound;
+		cin.clear();
+		cin.ignore(100, '\n');
+		if(tolower(newRound) == 'n')
+			break;
+	}
 }
 
 void Draft::newRound(){
@@ -126,6 +125,8 @@ void Draft::autoP(Team computer, vector<NodeData*>& a){
 	int random = rand() % 100;
 	int counter = 0;
 	int skipNum = 0;
+
+	usleep(compTime);
 
 	if(random < 70)
 		skipNum = 0;
@@ -158,10 +159,12 @@ void Draft::pick(Team user, vector<NodeData*>& a){
 	char yesNo;
 	int rank;
 
+	//cout << (userTime / 1000000) << " seconds to pick. " << endl;
+	//scraping user time limit until i get curses working. 
+
 	nextTen(a);
 	//user options
-		//-pause the draft
-		//-view my team
+	user.roster.displayRoster();
 		//-view another team
 		//-view draft board
 

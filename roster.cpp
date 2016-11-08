@@ -44,8 +44,9 @@ void Roster::add(NodeData* adding){
 }
 
 void Roster::displayRoster(){
-	for(int i = 0; i < 16; i++)
-		players[i].playerInfo();
+	for(int i = 0; i < 16; i++){
+			players[i].playerInfo();
+	}
 }
 
 void Roster::toBench(NodeData* benching){

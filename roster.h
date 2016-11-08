@@ -6,6 +6,7 @@
 #include "nodedata.h"
 using namespace std;
 
+
 class Roster
 {
     private:

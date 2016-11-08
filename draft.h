@@ -9,6 +9,7 @@
 #include "nodedata.h"
 #include "team.h"
 #include <unistd.h>
+#include <ncurses.h>
 
 #include <vector>
 #include <cctype>

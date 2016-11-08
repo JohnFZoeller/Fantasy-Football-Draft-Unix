@@ -30,5 +30,5 @@ void Player::toPlayer(NodeData* change){
 }
 
 void Player::playerInfo(){
-	cout << posit + " " + squad + " " + first + " " + last + " " << endl;
+	cout << posit + " " + squad + " " + first + " " + last + " ";
 }
