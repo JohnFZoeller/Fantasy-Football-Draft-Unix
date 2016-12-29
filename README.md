@@ -1,6 +1,8 @@
 # Personal---FantasyFootballDrafter
 How I compile and run: g++ *.cpp -lcurses -Wall -Werror; ./a.out;
 
+VERSION 1.0:  Finally working, lots of bug fixes to go (bounds checks etc...).  Tons more desired functionality.  
+
 Notes(12/28/16):  Curses implemented!  works real nice for two rounds.
 
 Notes(9/8): Switching out the bst for a vector so that I can write the autopick function for the computer. Going to have to implement the b+ tree completely from scratch and ive never done it before- so my plan is to get all the functionality down and then switch to the b+ tree. 
