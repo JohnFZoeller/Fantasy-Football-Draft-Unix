@@ -5,9 +5,7 @@ Player::Player(){
 	rank = 0;
 }
 
-int Player::getRank(){
-	return rank;
-}
+int Player::getRank(){ return rank; }
 
 NodeData* Player::makeFromStream(istream& in){
 	in >> rank;
@@ -29,6 +27,4 @@ void Player::toPlayer(NodeData* change){
 	rank = change->getRank();
 }
 
-string Player::playerInfo(){
-	return first + " " + last + "      " + squad;
-}
+string Player::playerInfo(){ return first + " " + last + "    " + squad; }

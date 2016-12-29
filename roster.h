@@ -19,7 +19,6 @@ class Roster
         void add(NodeData*, WINDOW *board);
         void displayRoster(WINDOW *board);
      	void toBench(NodeData*);
-
 };
 
 #endif

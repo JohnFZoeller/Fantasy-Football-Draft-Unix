@@ -15,8 +15,7 @@ using namespace std;
 void intro();                                                       //intro message
 bool check(vector<int>& vec, int a);                                //vector.contains();
 
-int main()
-{
+int main(){
     int numTeams, numUsers, draftPosition, i, j;                    //primitives
     string teamName;
 

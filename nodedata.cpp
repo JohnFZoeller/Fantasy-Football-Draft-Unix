@@ -57,27 +57,33 @@ NodeData& NodeData::operator=(const NodeData& rhs) {
 //------------------------- operator==,!= ------------------------------------
 bool NodeData::operator==(const NodeData& rhs) const {
 	return ran == rhs.ran;
+    //collapse
 }
 
 bool NodeData::operator!=(const NodeData& rhs) const {
 	return ran != rhs.ran;
+    //collapse
 }
 
 //------------------------ operator<,>,<=,>= ---------------------------------
 bool NodeData::operator<(const NodeData& rhs) const {
 	return ran < rhs.ran;
+    //collapse
 }
 
 bool NodeData::operator>(const NodeData& rhs) const {
 	return ran > rhs.ran;
+    //collapse
 }
 
 bool NodeData::operator<=(const NodeData& rhs) const {
 	return ran <= rhs.ran;
+    //collapse
 }
 
 bool NodeData::operator>=(const NodeData& rhs) const {
 	return ran >= rhs.ran;
+    //collapse
 }
 
 //-------------------------------end operators------------------
@@ -89,17 +95,12 @@ bool NodeData::setData(istream& infile) {
 	return !infile.eof();       // eof function is true when eof char is read
 }
 
-bool NodeData::getTaken(){
-    return taken;
-}
+bool NodeData::getTaken(){ return taken; }
 
-void NodeData::setTaken(bool set){
-    taken = set;
-}
+void NodeData::setTaken(bool set){ taken = set; }
 
-char NodeData::getPos(){
-    return pos[0];
-}
+char NodeData::getPos(){ return pos[0]; }
+
 //-------------------------- operator<< --------------------------------------
 ostream& operator<<(ostream& output, const NodeData& nd) {
 	output << "#" << nd.ran << " " << nd.pos << " " + nd.fir 

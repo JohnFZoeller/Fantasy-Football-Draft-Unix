@@ -8,15 +8,9 @@ Draft::Draft(){
 
 Draft::~Draft(){}
 
-void Draft::setNum(int num){
-	//collapse
-	numTeams = num;
-}
+void Draft::setNum(int num){ numTeams = num; }
 
-int Draft::getNum(){
-	//collapse
-	return numTeams;
-}
+int Draft::getNum(){ return numTeams; }
 
 void Draft::pickTime(){
 	int uTime, cTime;
@@ -62,17 +56,24 @@ void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
 	refresh();											//output
 
 	board[30] = createWin(4, 100, 1, 0);				//title
+	wattron(board[30], A_BOLD);
 	mvwprintw(board[30], 1, 10, "John Zoeller Draft");	//print T
 	wrefresh(board[30]);								//output
 
 	board[34] = createWin(4, 40, 1, 101);				//timer
-	mvwprintw(board[34], 1, 1, "TIMER");				//print time
+	wattron(board[34], A_BOLD);
+	mvwprintw(board[34], 1, 1, "ROUND");				//print time
 	wrefresh(board[34]);								//output
 
 	for(int k = 0; k < 10; k++){						//team names
 		board[k + 20] = createWin(3, 14, 5, (sX + (w * k)));
-		tName = arr[k].getUser() ? to_string(arr[k].getPosition()) 
-		+ " " + arr[k].getName() : to_string(k + 1) + " Auto";
+		wattron(board[k + 20], A_BOLD);	
+
+		if(arr[k].getUser()){
+			tName = to_string(arr[k].getPosition()) + " " + arr[k].getName();
+			wattron(board[k + 20], A_UNDERLINE);
+		} else
+			tName = to_string(k + 1) + " Auto";
 
 		mvwprintw(board[k + 20], 1, 1, tName.c_str());
 		wrefresh(board[k + 20]);
@@ -86,16 +87,22 @@ void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
 		z++;
 	}
 
-	board[33] = createWin(20, 45, 16, 0);				//players
+	board[33] = createWin(22, 45, 16, 0);				//players
+	wattron(board[33], A_BOLD);
 	mvwprintw(board[33], 1, 1, "PLAYERS");				//print title
+	wattroff(board[33], A_BOLD);
 	wrefresh(board[33]);								//output
 
 	board[32] = createWin(10, 45, 16, 46);				//menu
+	wattron(board[32], A_BOLD);
 	mvwprintw(board[32], 1, 1, "MENU");					//print title
+	wattroff(board[32], A_BOLD);
 	wrefresh(board[32]);								//output
 
-	board[31] = createWin(20, 45, 16, 92);				//roster
+	board[31] = createWin(22, 45, 16, 92);				//roster
+	wattron(board[31], A_BOLD);
 	mvwprintw(board[31], 1, 1, "MY ROSTER");				//print title
+	wattroff(board[31], A_BOLD);
 	wrefresh(board[31]);								//output
 
 	while((ch = getch()) != KEY_F(1)){					//drafting
@@ -111,12 +118,12 @@ void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
 }
 
 void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams, WINDOW **board){
-	//char newRound;
-
-	int pickN;
+	int pickN, round = 0;
 	srand(time(0));
 
-	while(true){
+	roundUp(++round, board[34]);
+
+	while(round < 16){
 		pickN = 0;
 
 		for(int i = 0; i < nTeams; i++){
@@ -126,7 +133,7 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams, WINDOW **boa
 				autoP(arr[i], a, board, pickN);
 			pickN++;
 		}
-
+		roundUp(++round, board[34]);
 		for(int i = (nTeams - 1); i > -1; i--){
 			if(arr[i].getUser())
 				pick(arr[i], a, board, pickN);
@@ -134,22 +141,12 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams, WINDOW **boa
 				autoP(arr[i], a, board, pickN);
 			pickN++;
 		}
-
-		// cout << endl << "KEEP GOING? (y/n): ";
-		// cin >> newRound;
-		// cin.clear();
-		// cin.ignore(100, '\n');
-		// if(tolower(newRound) == 'n')
-			break;
+		roundUp(++round, board[34]);
+		clearBoard(board);
 	}
 }
 
-void Draft::newRound(){
-	//for(int i = 0; i < 10; i++)
-		//insertEnd();
-}
-
-void Draft::autoP(Team computer, vector<NodeData*>& a, WINDOW **board, int pickN){
+void Draft::autoP(Team &computer, vector<NodeData*>& a, WINDOW **board, int pickN){
 	int random = rand() % 100;
 	int counter = 0, skipNum = 0;
 
@@ -165,10 +162,10 @@ void Draft::autoP(Team computer, vector<NodeData*>& a, WINDOW **board, int pickN
 	for(int i = 0; i < a.size(); i++){
 		if(!a[i]->getTaken()){
 			if(counter == skipNum){
-				a[i]->setTaken(true);				//nodeData.setTaken()
-				insertEnd(a[i]);					//draft.insertEnd(player)
+				a[i]->setTaken(true);							//nodeData.setTaken()
+				insertEnd(a[i]);								//draft.insertEnd(player)
 				computer.roster.add(a[i], board[31]);			//team.roster.add(player)
-				toBoard(computer, a[i], board, pickN);
+				toBoard(a[i], board, pickN);
 				break;
 			}
 			else counter++;
@@ -176,39 +173,22 @@ void Draft::autoP(Team computer, vector<NodeData*>& a, WINDOW **board, int pickN
 	}
 }
 
-void Draft::toBoard(Team team, NodeData* player, WINDOW **board, int pickN){
-	mvwprintw(board[pickN], 1, 1, toCharArr(player));
-	mvwprintw(board[pickN], 2, 1, toChar2(player));
-	wrefresh(board[pickN]);
-}
-
 void Draft::pick(Team &user, vector<NodeData*>& a, WINDOW **board, int pickN){
-	char yesNo;
 	char num[3];
 	int rank;
 
-	//cout << (userTime / 1000000) << " seconds to pick. " << endl;
-	//scraping user time limit until i get curses working. 
-
 	nextTen(a, board);
-		//-view another team
-		//-view whole board
 
 	while(true){
-		mvwprintw(board[32], 1, 1, "Enter number of desired player: ");
-		wrefresh(board[32]);
-
-		mvwgetstr(board[32], 1, 35, num);
-		sscanf(num, "%d", &rank);
-
-		if(!a[rank - 1]->getTaken()){
-			mvwprintw(board[32], 2, 1, "Are you sure(y/n): ");
+		do{
+			mvwprintw(board[32], 1, 1, "Enter rank of desired player(1-300): ");
 			wrefresh(board[32]);
-			yesNo = getch();
-			if(tolower(yesNo) == 'y'){
-				break;
-			}
-		}
+			mvwgetstr(board[32], 1, 38, num);
+			sscanf(num, "%d", &rank);
+		} while(rank < 1 || rank > 300);
+
+		if(!a[rank - 1]->getTaken())
+			break;
 		else if(a[rank - 1]->getTaken()){
 			mvwprintw(board[32], 2, 1, "Already taken, pick again");
 			wrefresh(board[32]);
@@ -219,17 +199,25 @@ void Draft::pick(Team &user, vector<NodeData*>& a, WINDOW **board, int pickN){
 	insertEnd(a[rank - 1]);
 	user.roster.add(a[rank - 1], board[31]);
 	user.roster.displayRoster(board[31]);
-	toBoard(user, a[rank - 1], board, pickN);
+	toBoard(a[rank - 1], board, pickN);
+}
+
+void Draft::toBoard(NodeData* player, WINDOW **board, const int &pickN){
+	mvwprintw(board[pickN], 1, 1, toCharArr(player));
+	mvwprintw(board[pickN], 2, 1, toChar2(player));
+	wrefresh(board[pickN]);
 }
 
 void Draft::nextTen(vector<NodeData*>& a, WINDOW **board){
-	int i = 0, morePlayers = 10, j = 3;
+	int i = 0, morePlayers = 15, j = 3;
 	char yesNo;
 
-	mvwprintw(board[33], 1, 1, "PLAYERS");
-	wrefresh(board[33]);
-
 	while(true){
+			wclear(board[33]);
+			box(board[33], 0, 0);
+			mvwprintw(board[33], 1, 1, "PLAYERS");
+			wrefresh(board[33]);
+
 		for(; i < morePlayers; i++){
 			if(!a[i]->getTaken()){
 				mvwprintw(board[33], j, 1, toCharArr(a[i]));
@@ -241,14 +229,30 @@ void Draft::nextTen(vector<NodeData*>& a, WINDOW **board){
 				morePlayers++;
 		}
 
-		mvwprintw(board[33], 12, 1, "Display 10 more? (y/n): ");
+		mvwprintw(board[33], 19, 1, "Display 15 more? (y/n): ");
 		wrefresh(board[33]);
-
 		yesNo = getch();
-		if(tolower(yesNo) == 'n')
-			break;
-		morePlayers += 10;
+
+		if(tolower(yesNo) == 'n') break;
+
+		morePlayers += 15;
 		j = 3;
+	}
+}
+
+void Draft::roundUp(int round, WINDOW *board){
+	string r = "ROUND : " + to_string(round);
+	wclear(board);
+	box(board, 0, 0);
+	mvwprintw(board, 1, 1, r.c_str());
+	wrefresh(board);
+}
+
+void Draft::clearBoard(WINDOW **board){
+	for(int i = 0; i < 20; i++){
+		wclear(board[i]);
+		box(board[i], 0, 0);
+		wrefresh(board[i]);
 	}
 }
 
@@ -275,13 +279,6 @@ void Draft::displayList(){
 		for(LinkNode *i = head; i != NULL; i = i->next)
 			cout << *i->pick << endl;
 	}
-}
-
-bool Draft::editNode(NodeData *edit){
-	//for every pick a for loop jumps through the linked list
-	//it finds the next node whose rank is 0, and writes to that node
-	//then the draft board is updated to reflect the change
-	return true;
 }
 
 //----------------------------------Curses functions-------------------------------

@@ -34,7 +34,6 @@ class Team
         bool operator!=(const Team &) const;
 
         void displayBasics();                                                //helpers
-
 };
 
 #endif

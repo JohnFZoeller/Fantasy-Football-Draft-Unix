@@ -40,25 +40,23 @@ class Draft{
 		void pickTime(); 
 		void startDraft(Team *arr, vector<NodeData*>&, int, WINDOW **board);
 		void makeBoard(Team *arr, vector<NodeData*>&, int);
-		void newRound();
-		void autoP(Team, vector<NodeData*>&, WINDOW **board, int pick);
-		void toBoard(Team team, NodeData *player, WINDOW **board, int pick);
+		void autoP(Team &, vector<NodeData*>&, WINDOW **board, int pick);
+		void toBoard(NodeData *player, WINDOW **board, const int &pick);
 
 		void pick(Team &, vector<NodeData*>&, WINDOW **board, int pick);
 		void nextTen(vector<NodeData*>&, WINDOW **board);
+		void roundUp(int, WINDOW *);
+		void clearBoard(WINDOW **board);
 
 		//List functions
 		void insertEnd(NodeData*);
 		void displayList();
-		bool editNode(NodeData*);
 
 		//curses functions
 		void destroy_win(WINDOW *);
 		WINDOW *createWin(int, int, int, int);
 		char *toCharArr(NodeData *a);
 		char *toChar2(NodeData *a);
-
-
 };
 
 #endif

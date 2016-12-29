@@ -18,30 +18,17 @@ Team::Team(const Team &obj){
     user = obj.user;
 }
 
-void Team::setUser(bool u){
-    user = u;
-}
+void Team::setUser(bool u){ user = u; }
 
-bool Team::getUser(){
-    return user;
-}
+bool Team::getUser(){ return user; }
 
-void Team::setPosition(int p){
-    position = p;
-}
+void Team::setPosition(int p){ position = p; }
 
+int Team::getPosition(){ return position; }
 
-int Team::getPosition(){
-    return position;
-}
+void Team::setName(string newName){ name = newName; }
 
-void Team::setName(string newName){
-    name = newName;
-}
-
-string Team::getName(){
-    return name;
-}
+string Team::getName(){ return name; }
 
 const Team &Team::operator=(const Team &rhs){
     if(this != &rhs)
@@ -59,16 +46,13 @@ bool Team::operator==(const Team &rhs) const{
     else return false;
 }
 
-bool Team::operator!=(const Team &rhs) const
-{
+bool Team::operator!=(const Team &rhs) const{
     if(*this == rhs)
         return false;
     else return true;
 }
 
-
-void Team::displayBasics()
-{
-    cout << endl << "Team name : " << name << endl;
-    cout << "Draft Position : " << position << endl << endl;
+void Team::displayBasics(){
+    cout << endl << "Team name : " << name << endl
+    << "Draft Position : " << position << endl << endl;
 }
