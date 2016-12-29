@@ -102,6 +102,7 @@ char NodeData::getPos(){
 }
 //-------------------------- operator<< --------------------------------------
 ostream& operator<<(ostream& output, const NodeData& nd) {
-	output << "#" << nd.ran << " " << nd.pos << " " + nd.fir + " " + nd.las + " " + nd.squ << endl;
+	output << "#" << nd.ran << " " << nd.pos << " " + nd.fir 
+            + " " + nd.las + " " + nd.squ << endl;
 	return output;
 }

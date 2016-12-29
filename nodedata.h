@@ -5,8 +5,7 @@
 #include <fstream>
 using namespace std;
 
-class NodeData 
-{
+class NodeData {
     friend ostream & operator<<(ostream &, const NodeData &);
 
     private:
@@ -32,6 +31,7 @@ class NodeData
         string getPosition(){return pos;}
         string getSquad(){return squ;}
         int getRank(){return ran;}
+        string getRankS(){return to_string(ran);}
 
         bool operator==(const NodeData &) const;
         bool operator!=(const NodeData &) const;

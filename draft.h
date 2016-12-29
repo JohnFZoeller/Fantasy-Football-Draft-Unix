@@ -6,13 +6,14 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <cstdio>
 #include "nodedata.h"
 #include "team.h"
 #include <unistd.h>
 #include <ncurses.h>
-
 #include <vector>
 #include <cctype>
+#include <sstream>
 
 using namespace std;
 
@@ -34,22 +35,28 @@ class Draft{
 		//getters setters
 		void setNum(int);
 		int getNum();
-		//board functions
-		void setUp(); //calls makeboard and newround
-		void startDraft(Team *arr, vector<NodeData*>&, int); //calls display board and new round 
-		void makeBoard(Team *arr, int);
-		void newRound();
-		void autoPick(Team, vector<NodeData*>&);
-		void autoP(Team, vector<NodeData*>&);
-		void toBoard();
 
-		void pick(Team, vector<NodeData*>&);
-		void nextTen(vector<NodeData*>&);
+		//board functions
+		void pickTime(); 
+		void startDraft(Team *arr, vector<NodeData*>&, int, WINDOW **board);
+		void makeBoard(Team *arr, vector<NodeData*>&, int);
+		void newRound();
+		void autoP(Team, vector<NodeData*>&, WINDOW **board, int pick);
+		void toBoard(Team team, NodeData *player, WINDOW **board, int pick);
+
+		void pick(Team &, vector<NodeData*>&, WINDOW **board, int pick);
+		void nextTen(vector<NodeData*>&, WINDOW **board);
 
 		//List functions
 		void insertEnd(NodeData*);
 		void displayList();
 		bool editNode(NodeData*);
+
+		//curses functions
+		void destroy_win(WINDOW *);
+		WINDOW *createWin(int, int, int, int);
+		char *toCharArr(NodeData *a);
+		char *toChar2(NodeData *a);
 
 
 };

@@ -22,7 +22,6 @@ class Team
         Team(const Team &obj);
         ~Team() {};
 
-
         void setUser(bool);                                                   //manipulators
         bool getUser();
         void setPosition(int);

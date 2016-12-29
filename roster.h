@@ -2,6 +2,7 @@
 #define ROSTER_H
 #include <iostream>
 #include <string>
+#include <ncurses.h>
 #include "player.h"
 #include "nodedata.h"
 using namespace std;
@@ -15,8 +16,8 @@ class Roster
     public:
         Roster();
 
-        void add(NodeData*);
-        void displayRoster();
+        void add(NodeData*, WINDOW *board);
+        void displayRoster(WINDOW *board);
      	void toBench(NodeData*);
 
 };

@@ -18,7 +18,7 @@ class Player
 
     	NodeData *makeFromStream(istream &in);
     	void toPlayer(NodeData*);
-    	void playerInfo();
+    	string playerInfo();
 
 };
 

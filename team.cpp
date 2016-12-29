@@ -2,7 +2,7 @@
 
 Team::Team(){
     name = " ";         //default blank name
-    position = 11;      //default is outside of draft range. 
+    position = 31;      //default is outside of draft range. 
     user = false;
 }   
 
@@ -29,6 +29,7 @@ bool Team::getUser(){
 void Team::setPosition(int p){
     position = p;
 }
+
 
 int Team::getPosition(){
     return position;
