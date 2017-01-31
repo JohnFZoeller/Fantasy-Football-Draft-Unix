@@ -2,6 +2,37 @@
 //0 - QB //1 - RB //2 - RB //3 - R/W //4 - WR //5 - WR //6 - TE //7 - DE //8 - K
 Roster::Roster(){ players = new Player[16]; }
 
+bool Roster::hasNeed(NodeData *player){
+        switch(player->getPos()){
+        case 'W' :  { 
+                        break;
+        }
+        case 'R' :  {  
+                        break;
+        }
+        case 'T' :  {   
+                        break;
+        }
+        case 'Q' :  {   //only take if you dont already have a qb
+        				//or if its past the 9th round
+                        break;
+        }
+        case 'K' :  {   
+                        break;
+        }
+        case 'D' :  {   
+                        break;
+        }
+        default: break;
+    }
+    //look at player
+    //compare to roster
+    //starting qb/te/dst/k but not starting rb's or wrs? 
+        //return false
+
+    return true;
+}
+
 void Roster::add(NodeData* adding, WINDOW *board){
 	switch(adding->getPos()){
 		case 'W' :	{	if(players[4].getRank() == 0) players[4].toPlayer(adding);
@@ -39,7 +70,9 @@ void Roster::add(NodeData* adding, WINDOW *board){
 void Roster::displayRoster(WINDOW *board){
 	wclear(board);
 	box(board, 0 , 0);								// 0, 0 gives default characters 
+	wattron(board, A_BOLD);
 	mvwprintw(board, 1, 1, "MY ROSTER");			//print title
+	wattroff(board, A_BOLD);
 	mvwprintw(board, 3, 1, "QB : ");
 	mvwprintw(board, 4, 1, "RB : ");
 	mvwprintw(board, 5, 1, "RB : ");

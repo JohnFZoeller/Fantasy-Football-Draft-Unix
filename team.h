@@ -4,36 +4,36 @@
 #include <string>
 #include "roster.h"
 #include <vector>
+#include "nodedata.h"
 
 using namespace std;
 
-class Team
-{
+class Team{
     friend class Draft;
     private:
         string name;                                        //name of team
-        int position;                                         //drafting position
+        int position;                                       //drafting position
         bool user;
         Roster roster;
 
     public:
-        Team();                                                 //constructors
+        Team();
         Team(string n, int p, bool a);
         Team(const Team &obj);
         ~Team() {};
 
-        void setUser(bool);                                                   //manipulators
+        void setUser(bool);
         bool getUser();
         void setPosition(int);
         int getPosition();
         void setName(string);
         string getName();
 
-        const Team &operator=(const Team&rhs);          //overloads
+        const Team &operator=(const Team&rhs);
         bool operator==(const Team &) const;
         bool operator!=(const Team &) const;
 
-        void displayBasics();                                                //helpers
+        void displayBasics();
 };
 
 #endif

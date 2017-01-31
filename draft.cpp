@@ -13,26 +13,27 @@ void Draft::setNum(int num){ numTeams = num; }
 int Draft::getNum(){ return numTeams; }
 
 void Draft::pickTime(){
-	int uTime, cTime;
+	double cTime;
+	//int uTime;
 	unsigned int millis = 1000000;
 
 	cout << endl << "Draft Time Settings:" << endl;
 
-	do{																//user time
-		cout << "Enter between 15-45 seconds per draft pick: ";
-		cin >> uTime;
-		cin.clear();
-		cin.ignore(100, '\n');
-	} while(uTime > 45 || uTime < 15);
+	// do{																//user time
+	// 	cout << "Enter between 15-45 seconds per draft pick: ";
+	// 	cin >> uTime;
+	// 	cin.clear();
+	// 	cin.ignore(100, '\n');
+	// } while(uTime > 45 || uTime < 15);
 
 	do{																//auto time
 		cout << "Enter between 0-5 seconds per autopick: ";
 		cin >> cTime;
 		cin.clear();
 		cin.ignore(100, '\n');
-	} while(cTime < 0 || cTime > 5);
+	} while(cTime < 0.0 || cTime > 5.0);
 
-	userTime = uTime * 1000000;										//format time
+	//userTime = uTime * 1000000;										//format time
 	compTime = cTime * 1000000;										//format time
 	cout << endl << "PLEASE FULLSCREEN YOUR TERMINAL WINDOW" << endl;
 	usleep(1000000);
@@ -127,10 +128,12 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams, WINDOW **boa
 		pickN = 0;
 
 		for(int i = 0; i < nTeams; i++){
-			if(arr[i].getUser())
+			if(arr[i].getUser()){
 				pick(arr[i], a, board, pickN);
-			else if(!arr[i].getUser())
+			}
+			else if(!arr[i].getUser()){
 				autoP(arr[i], a, board, pickN);
+			}
 			pickN++;
 		}
 		roundUp(++round, board[34]);
@@ -146,36 +149,43 @@ void Draft::startDraft(Team *arr, vector<NodeData*>& a, int nTeams, WINDOW **boa
 	}
 }
 
-void Draft::autoP(Team &computer, vector<NodeData*>& a, WINDOW **board, int pickN){
+void Draft::autoP(Team &computer, vector<NodeData*>& a, WINDOW **board, const int &pickN){
 	int random = rand() % 100;
 	int counter = 0, skipNum = 0;
 
 	usleep(compTime);
 
-	if(random < 70)
+	if(random < 60)
 		skipNum = 0;
-	else if(random >= 70 && random < 85)
+	else if(random >= 60 && random < 80)
 		skipNum = 1;
-	else if(random > 85)
+	else if(random >= 80 && random < 90)
 		skipNum = 2;
+	else if(random >= 90 && random < 97)
+		skipNum = 3;
+	else if(random >= 97 && random < 100)
+		skipNum = 4;
 
 	for(int i = 0; i < a.size(); i++){
-		if(!a[i]->getTaken()){
-			if(counter == skipNum){
-				a[i]->setTaken(true);							//nodeData.setTaken()
-				insertEnd(a[i]);								//draft.insertEnd(player)
-				computer.roster.add(a[i], board[31]);			//team.roster.add(player)
-				toBoard(a[i], board, pickN);
-				break;
+		if(!a[i]->getTaken()){									//cur player not taken
+			if(counter == skipNum){								//likelyhood counter
+				if(computer.roster.hasNeed(a[i])){						//player needed
+					a[i]->setTaken(true);							//player taken
+					insertEnd(a[i]);								//add to board
+					computer.roster.add(a[i], board[31]);			//add to roster
+					toBoard(a[i], board, pickN);					
+					break;											//complete- exit
+				} else continue;									
 			}
 			else counter++;
 		}
 	}
 }
 
-void Draft::pick(Team &user, vector<NodeData*>& a, WINDOW **board, int pickN){
+void Draft::pick(Team &user, vector<NodeData*>& a, WINDOW **board, const int &pickN){
 	char num[3];
-	int rank;
+	int rank = 0;
+	int temp = pickN;					//for some reason mvwgetstr resets pickN, solved
 
 	nextTen(a, board);
 
@@ -199,13 +209,54 @@ void Draft::pick(Team &user, vector<NodeData*>& a, WINDOW **board, int pickN){
 	insertEnd(a[rank - 1]);
 	user.roster.add(a[rank - 1], board[31]);
 	user.roster.displayRoster(board[31]);
-	toBoard(a[rank - 1], board, pickN);
+	toBoard(a[rank - 1], board, temp);
 }
 
 void Draft::toBoard(NodeData* player, WINDOW **board, const int &pickN){
-	mvwprintw(board[pickN], 1, 1, toCharArr(player));
-	mvwprintw(board[pickN], 2, 1, toChar2(player));
-	wrefresh(board[pickN]);
+
+	start_color();
+	switch(player->getPos()){
+		case 'W' :	{	init_pair(1, COLOR_GREEN, COLOR_BLACK);
+						wattron(board[pickN], COLOR_PAIR(1));
+						mvwprintw(board[pickN], 1, 1, toCharArr(player));
+						mvwprintw(board[pickN], 2, 1, toChar2(player));
+						wrefresh(board[pickN]);
+						wattroff(board[pickN], COLOR_PAIR(1));
+						break;
+					}
+		case 'R' :	{	
+						init_pair(2, COLOR_CYAN, COLOR_BLACK);
+						wattron(board[pickN], COLOR_PAIR(2));
+						mvwprintw(board[pickN], 1, 1, toCharArr(player));
+						mvwprintw(board[pickN], 2, 1, toChar2(player));
+						wrefresh(board[pickN]);
+						wattroff(board[pickN], COLOR_PAIR(2));
+						break;
+					}
+		case 'T' :	{	init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+						wattron(board[pickN], COLOR_PAIR(3));
+						mvwprintw(board[pickN], 1, 1, toCharArr(player));
+						mvwprintw(board[pickN], 2, 1, toChar2(player));
+						wrefresh(board[pickN]);
+						wattroff(board[pickN], COLOR_PAIR(3));
+						break;
+					}
+		case 'Q' :	{	init_pair(4, COLOR_RED, COLOR_BLACK);
+						wattron(board[pickN], COLOR_PAIR(4));
+						mvwprintw(board[pickN], 1, 1, toCharArr(player));
+						mvwprintw(board[pickN], 2, 1, toChar2(player));
+						wrefresh(board[pickN]);
+						wattroff(board[pickN], COLOR_PAIR(4));
+						break;
+					}
+		default: 		mvwprintw(board[pickN], 1, 1, toCharArr(player));
+						mvwprintw(board[pickN], 2, 1, toChar2(player));
+						wrefresh(board[pickN]);
+						break;
+	} 
+	// mvwprintw(board[pickN], 1, 1, toCharArr(player));
+	// mvwprintw(board[pickN], 2, 1, toChar2(player));
+	// wrefresh(board[pickN]);
 }
 
 void Draft::nextTen(vector<NodeData*>& a, WINDOW **board){
@@ -213,30 +264,37 @@ void Draft::nextTen(vector<NodeData*>& a, WINDOW **board){
 	char yesNo;
 
 	while(true){
-			wclear(board[33]);
-			box(board[33], 0, 0);
-			mvwprintw(board[33], 1, 1, "PLAYERS");
-			wrefresh(board[33]);
+			wclear(board[33]);											//clear players
+			box(board[33], 0, 0);										//redraw box
+			wattron(board[33], A_BOLD);									//BOLD ON
+			mvwprintw(board[33], 1, 1, "PLAYERS");						//reprint
+			wattroff(board[33], A_BOLD);								//BOLD OFF 
+			wrefresh(board[33]);										//REFRESH
 
-		for(; i < morePlayers; i++){
-			if(!a[i]->getTaken()){
-				mvwprintw(board[33], j, 1, toCharArr(a[i]));
-				mvwprintw(board[33], j, 13, toChar2(a[i]));
-				wrefresh(board[33]);
-				j++;
+		for(; i < morePlayers; i++){									//i = 27, mP = 42						
+			if(i > a.size() - 1) return;											//bounds check
+			if(!a[i]->getTaken()){										//player taken?
+				mvwprintw(board[33], j, 1, toCharArr(a[i]));			//first line
+				mvwprintw(board[33], j, 13, toChar2(a[i]));				//second lines
+				wrefresh(board[33]);									//refresh
+				j++;													//y coord incre
 			}
-			else if(a[i]->getTaken())
-				morePlayers++;
+			else if(a[i]->getTaken())									//player was taken
+				morePlayers++;											//ensures 15
 		}
 
-		mvwprintw(board[33], 19, 1, "Display 15 more? (y/n): ");
-		wrefresh(board[33]);
-		yesNo = getch();
+		do{			
+			//wattron(board[33], A_BLINK);
+			mvwprintw(board[33], 19, 1, "DISPLAY 15 MORE? (y/n): ");
+			//wattroff(board[33], A_BOLD);
+			wrefresh(board[33]);
+			yesNo = getch();
+		} while(tolower(yesNo) != 'y' && tolower(yesNo) != 'n');		//not a yes or no
 
-		if(tolower(yesNo) == 'n') break;
+		if(tolower(yesNo) == 'n') break;								//basically returns
 
-		morePlayers += 15;
-		j = 3;
+		morePlayers += 15;												//always 15
+		j = 3;															//y coord reset
 	}
 }
 
@@ -249,6 +307,7 @@ void Draft::roundUp(int round, WINDOW *board){
 }
 
 void Draft::clearBoard(WINDOW **board){
+	usleep(1000000);
 	for(int i = 0; i < 20; i++){
 		wclear(board[i]);
 		box(board[i], 0, 0);
@@ -281,10 +340,13 @@ void Draft::displayList(){
 	}
 }
 
+/*
+	string john = to_string(int)
+	mvwprintw(board[k + 20], 1, 1, john.c_str());
+*/
 //----------------------------------Curses functions-------------------------------
 WINDOW *Draft::createWin(int height, int width, int starty, int startx){	
 	WINDOW *local_win;
-
 	local_win = newwin(height, width, starty, startx);
 	box(local_win, 0 , 0);		// 0, 0 gives default characters 
 	wrefresh(local_win);		// Show that box 		
@@ -324,8 +386,15 @@ char *Draft::toChar2(NodeData *a){
 	return john;
 }
 
-
-
-
-
-
+bool Draft::notNums(char *nums, int &rank){
+	for(int i = 0; i < 3; i++){
+		if(isdigit(nums[i]) || !nums[i]){ //char is digit or is NULL
+			continue;					  //keep going
+		}
+		else{							  //must be a non null non digit
+			rank = 0;
+			return true;
+		}
+	}
+	return false;
+}

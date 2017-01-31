@@ -40,13 +40,14 @@ class Draft{
 		void pickTime(); 
 		void startDraft(Team *arr, vector<NodeData*>&, int, WINDOW **board);
 		void makeBoard(Team *arr, vector<NodeData*>&, int);
-		void autoP(Team &, vector<NodeData*>&, WINDOW **board, int pick);
+		void autoP(Team &, vector<NodeData*>&, WINDOW **board, const int &pick);
 		void toBoard(NodeData *player, WINDOW **board, const int &pick);
 
-		void pick(Team &, vector<NodeData*>&, WINDOW **board, int pick);
+		void pick(Team &, vector<NodeData*>&, WINDOW **board, const int &pick);
 		void nextTen(vector<NodeData*>&, WINDOW **board);
 		void roundUp(int, WINDOW *);
 		void clearBoard(WINDOW **board);
+		bool notNums(char *, int &);
 
 		//List functions
 		void insertEnd(NodeData*);

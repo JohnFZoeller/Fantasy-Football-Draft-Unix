@@ -4,7 +4,6 @@
 #include <iomanip>
 #include "team.h" 
 #include "draft.h"
-#include "bPlus.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,33 +21,35 @@ int main(){
     Team *arr;                                                      //abstracts
     NodeData *ptr = NULL;
     Draft draft;
-    bPlus tree;
     vector <NodeData*> allV;                                        //all players
     vector <int> pickNum;                                           //taken Picks
 
     //------------------------------------PART ONE--------------------------------
     intro();
+    cout << "10 teams, 1 user " << endl;
 
-    do{                                                             //get numTeams
-        cout << "Choose between 4 and 12 teams: ";
-        cin >> numTeams;
-        cin.clear();
-        cin.ignore(100, '\n');
-    } while(numTeams < 4 || numTeams > 12);
+    // do{                                                             //get numTeams
+    //     cout << "Choose between 4 and 12 teams: ";
+    //     cin >> numTeams;
+    //     cin.clear();
+    //     cin.ignore(100, '\n');
+    // } while(numTeams < 4 || numTeams > 12);
 
-    cout << endl << "Ok, there will be " << numTeams << " teams. " << endl << endl;
+    // cout << endl << "Ok, there will be " << numTeams << " teams. " << endl << endl;
+    numTeams = 10;
     arr = new Team[numTeams];
     draft.setNum(numTeams);
 
-    do{                                                             //get numUsers
-        cout << "Choose between 0 and " << numTeams << " users: ";
-        cin >> numUsers;
-        cin.clear();
-        cin.ignore(100, '\n');
-    } while(numUsers < 0 || numUsers > numTeams);
+    // do{                                                             //get numUsers
+    //     cout << "Choose between 0 and " << numTeams << " users: ";
+    //     cin >> numUsers;
+    //     cin.clear();
+    //     cin.ignore(100, '\n');
+    // } while(numUsers < 0 || numUsers > numTeams);
 
-    cout << "Ok, there will be " << numUsers << " user(s) and " 
-    << (numTeams - numUsers) << " autopicks" << endl;
+    // cout << "Ok, there will be " << numUsers << " user(s) and " 
+    // << (numTeams - numUsers) << " autopicks" << endl;
+    numUsers = 1;
 
     for(i = 0; i < numUsers; i++){                                  //set user info
         cout << "Enter user " << i + 1 << "'s  name: ";
@@ -79,7 +80,9 @@ int main(){
     //now read in player list into vector, will be b+ tree once thats done
     //----------------------------------PART TWO----------------------------
 
-    system("sh totxt.sh");                                          //format txt
+    cout << endl << "Retreiving ESPN Player Data... " << endl;
+    //system("sh totxt.sh");                                          //format txt
+    system("sh 2017.sh");
     ifstream in("players.txt");                                     //open file
     
     if (!in){                                                       //validity check
@@ -96,9 +99,10 @@ int main(){
                 delete ptr;                                         //...delete repeats
         }
 
-        if(ptr != NULL)                                             //valid player?
-            allV.push_back(ptr);                                    //add player
+        if(ptr != NULL) allV.push_back(ptr);                                    //add player
     }
+
+    cout << "Players Acquired " << endl;
 
     //---------------------------------END PART TWO----------------------------
     //--------------------------------PART THREE-----------------------------

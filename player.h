@@ -6,8 +6,7 @@
 #include "nodedata.h"
 using namespace std;
 
-class Player
-{
+class Player{
     private:
         string posit, squad, first, last;
         int rank;
