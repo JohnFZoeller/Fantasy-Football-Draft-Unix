@@ -17,7 +17,7 @@ void Draft::pickTime(){
 	//int uTime;
 	unsigned int millis = 1000000;
 
-	cout << endl << "Draft Time Settings:" << endl;
+	//cout << endl << "Draft Time Settings:" << endl;
 
 	// do{																//user time
 	// 	cout << "Enter between 15-45 seconds per draft pick: ";
@@ -26,16 +26,16 @@ void Draft::pickTime(){
 	// 	cin.ignore(100, '\n');
 	// } while(uTime > 45 || uTime < 15);
 
-	do{																//auto time
-		cout << "Enter between 0-5 seconds per autopick: ";
-		cin >> cTime;
-		cin.clear();
-		cin.ignore(100, '\n');
-	} while(cTime < 0.0 || cTime > 5.0);
-
+	// do{																//auto time
+	// 	cout << "Enter between 0-5 seconds per autopick: ";
+	// 	cin >> cTime;
+	// 	cin.clear();
+	// 	cin.ignore(100, '\n');
+	// } while(cTime < 0.0 || cTime > 5.0);
+	cTime = .6;
 	//userTime = uTime * 1000000;										//format time
 	compTime = cTime * 1000000;										//format time
-	cout << endl << "PLEASE FULLSCREEN YOUR TERMINAL WINDOW" << endl;
+	//cout << endl << "PLEASE FULLSCREEN YOUR TERMINAL WINDOW" << endl;
 	usleep(1000000);
 	cout << "Ready?" << endl;
 	usleep(millis);

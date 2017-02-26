@@ -26,8 +26,8 @@ int main(){
 
     //------------------------------------PART ONE--------------------------------
     intro();
-    cout << "10 teams, 1 user " << endl;
-
+    // cout << "10 teams, 1 user " << endl;
+    cout << endl << endl << endl;
     // do{                                                             //get numTeams
     //     cout << "Choose between 4 and 12 teams: ";
     //     cin >> numTeams;
@@ -52,8 +52,10 @@ int main(){
     numUsers = 1;
 
     for(i = 0; i < numUsers; i++){                                  //set user info
-        cout << "Enter user " << i + 1 << "'s  name: ";
+        //cout << "Enter user " << i + 1 << "'s  name: ";
+        cout << "Enter your name: ";
         getline(cin, teamName);
+        cout << endl << endl << endl;
 
         do{                                                         //set draft positions
             cout << "Enter draft position (1 - " << numTeams << ") : ";
@@ -79,7 +81,7 @@ int main(){
     //-------------------------------END PART ONE----------------------------
     //now read in player list into vector, will be b+ tree once thats done
     //----------------------------------PART TWO----------------------------
-
+    cout << endl << endl;
     cout << endl << "Retreiving ESPN Player Data... " << endl;
     //system("sh totxt.sh");                                          //format txt
     system("sh 2017.sh");
@@ -102,7 +104,7 @@ int main(){
         if(ptr != NULL) allV.push_back(ptr);                                    //add player
     }
 
-    cout << "Players Acquired " << endl;
+    cout << "Players Acquired " << endl << endl << endl;
 
     //---------------------------------END PART TWO----------------------------
     //--------------------------------PART THREE-----------------------------
@@ -124,18 +126,18 @@ bool check(vector<int>& vec, int a){
 
 void intro(){
 	system("sh clear.sh");
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "           FANTASY FOOTBALL DRAFT SIMULATOR - JOHN ZOELLER" << endl;
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "Welcome to The Draft Machine. "
-    << "Default teams consist of: " << endl 
-    << "1 Quarterback" << endl
-    << "2 Running backs" << endl
-    << "2 Wide Recievers " << endl
-    << "1 Flex" << endl
-    << "1 Tight End " << endl
-    << "1 Defense " << endl
-    << "1 Kicker" << endl
-    << "8 Bench spots" << endl << endl;
+    cout << "------------------------------------------------------------------------------------" << endl;
+    cout << "                     FANTASY FOOTBALL DRAFT SIMULATOR - JOHN ZOELLER" << endl;
+    cout << "------------------------------------------------------------------------------------" << endl;
+    // cout << "Welcome to The Draft Machine. "
+    // << "Default teams consist of: " << endl 
+    // << "1 Quarterback" << endl
+    // << "2 Running backs" << endl
+    // << "2 Wide Recievers " << endl
+    // << "1 Flex" << endl
+    // << "1 Tight End " << endl
+    // << "1 Defense " << endl
+    // << "1 Kicker" << endl
+    // << "8 Bench spots" << endl << endl;
 }
 
