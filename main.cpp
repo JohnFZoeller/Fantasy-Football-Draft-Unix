@@ -28,16 +28,15 @@ int main(){
     intro();
     // cout << "10 teams, 1 user " << endl;
     cout << endl << endl << endl;
-    // do{                                                             //get numTeams
-    //     cout << "Choose between 4 and 12 teams: ";
-    //     cin >> numTeams;
-    //     cin.clear();
-    //     cin.ignore(100, '\n');
-    // } while(numTeams < 4 || numTeams > 12);
+    /*do{                                                             //get numTeams
+        cout << "Choose between 4 and 12 teams: ";
+        cin >> numTeams;
+        cin.clear();
+        cin.ignore(100, '\n');
+    } while(numTeams < 4 || numTeams > 12);
 
-    // cout << endl << "Ok, there will be " << numTeams << " teams. " << endl << endl;
-    numTeams = 10;
-    arr = new Team[numTeams];
+    cout << endl << "Ok, there will be " << numTeams << " teams. " << endl << endl;*/
+    arr = new Team[numTeams = 10];
     draft.setNum(numTeams);
 
     // do{                                                             //get numUsers
@@ -55,7 +54,7 @@ int main(){
         //cout << "Enter user " << i + 1 << "'s  name: ";
         cout << "Enter your name: ";
         getline(cin, teamName);
-        cout << endl << endl << endl;
+        cout << endl << endl;
 
         do{                                                         //set draft positions
             cout << "Enter draft position (1 - " << numTeams << ") : ";
@@ -76,6 +75,8 @@ int main(){
     for(j = 0; j < numTeams; j++)                                   //fill autopicks
         if(arr[j].getUser() == false)                               //not a user?
             arr[j] = Team("auto", (j + 1), false);                  //make autopick
+
+    exit(0);
 
 
     //-------------------------------END PART ONE----------------------------
@@ -125,7 +126,7 @@ bool check(vector<int>& vec, int a){
 }
 
 void intro(){
-	system("sh clear.sh");
+	system("clear;");
     cout << "------------------------------------------------------------------------------------" << endl;
     cout << "                     FANTASY FOOTBALL DRAFT SIMULATOR - JOHN ZOELLER" << endl;
     cout << "------------------------------------------------------------------------------------" << endl;

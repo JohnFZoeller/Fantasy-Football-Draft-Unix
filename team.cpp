@@ -31,8 +31,7 @@ void Team::setName(string newName){ name = newName; }
 string Team::getName(){ return name; }
 
 const Team &Team::operator=(const Team &rhs){
-    if(this != &rhs)
-    {
+    if(this != &rhs){
         name = rhs.name;
         position = rhs.position;
         user = rhs.user;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget -q "http://www.espn.com/espn/print?id=18438625" -O johnz.html;
+wget -q "http://www.espn.com/espn/print?id=19463166" -O johnz.html;
 html2text johnz.html > johnz.txt
 
 cat johnz.txt |
