@@ -76,22 +76,24 @@ int main(){
         if(arr[j].getUser() == false)                               //not a user?
             arr[j] = Team("auto", (j + 1), false);                  //make autopick
 
-    exit(0);
 
 
     //-------------------------------END PART ONE----------------------------
     //now read in player list into vector, will be b+ tree once thats done
     //----------------------------------PART TWO----------------------------
-    cout << endl << endl;
-    cout << endl << "Retreiving ESPN Player Data... " << endl;
-    //system("sh totxt.sh");                                          //format txt
+    cout << endl << endl << "Retreiving ESPN Player Data... " << endl;
+
     system("sh 2017.sh");
+    
     ifstream in("players.txt");                                     //open file
     
     if (!in){                                                       //validity check
         cout << "File could not be opened." << endl;
         return 1;
     }
+
+        cout << "here" << endl;
+
 
     while(!in.eof()){
         Player john;

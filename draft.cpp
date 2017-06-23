@@ -42,7 +42,7 @@ void Draft::pickTime(){
 	cout << "Set" << endl;
 	usleep(millis);
 	cout << "GO!" << endl;
-	system("sh clear.sh");
+	system("clear;");
 }
 
 void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){

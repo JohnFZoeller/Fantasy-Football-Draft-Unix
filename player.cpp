@@ -12,7 +12,8 @@ NodeData* Player::makeFromStream(istream& in){
 	in.get();
 	in.get();
 	getline(in, squad, ' ');
-	getline(in, posit, ' ');
+	getline(in, posit, ',');
+	in.get();
 	getline(in, first, ' ');
 	getline(in, last, '\n');
 	NodeData* john = new NodeData(rank, first, last, squad, posit);

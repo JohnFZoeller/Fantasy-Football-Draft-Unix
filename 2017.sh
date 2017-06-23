@@ -1,9 +1,9 @@
 #!/bin/bash
 
-wget -q "http://www.espn.com/espn/print?id=19463166" -O johnz.html;
-html2text johnz.html > johnz.txt
+wget -q "http://www.espn.com/espn/print?id=19463166" -O playerList.html;
+html2text playerList.html > playerList.txt
 
-cat johnz.txt |
+cat playerList.txt |
 awk '
 /^([1-9][0-9]*)|([0]+)$/{
 	if($6 == "300") {
@@ -16,5 +16,5 @@ awk '
 			printf chars[i];						#print all 
 	}
 	print "";
-}' | awk '{ print $1, $(NF-1), $2, $3, $4}' > players.txt;
+}' | awk '{ print $1, $(NF-8), $(NF-9), $2, $3}' > players.txt;
 
