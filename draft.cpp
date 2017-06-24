@@ -53,7 +53,7 @@ void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
 	initscr();											//start curses
 	cbreak();											//line buffer off
 	keypad(stdscr, TRUE);								//to use f1
-	printw("Press F1 to exit");							//print 
+	printw("Press cntr+c to exit");							//print 
 	refresh();											//output
 
 	board[30] = createWin(4, 100, 1, 0);				//title
