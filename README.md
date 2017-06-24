@@ -1,4 +1,9 @@
 # Personal---FantasyFootballDrafter
+
+
+./run.sh
+
+
 How I compile and run: g++ *.cpp -lcurses -Wall -Werror; ./a.out;
 
 VERSION 1.0:  Finally working, lots of bug fixes to go (bounds checks etc...).  Tons more desired functionality.  
