@@ -5,6 +5,8 @@ Draft::Draft(){
 	numTeams = 0;
 	compTime = userTime = 0;
 }
+//adding comments
+
 
 Draft::~Draft(){}
 
