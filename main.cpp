@@ -12,10 +12,10 @@
 using namespace std;
 
 void intro();                                                       //intro message
-bool check(vector<int>& vec, int a);                                //vector.contains();
+const bool contains(const vector<int>& v, const int& target);  //vector.contains();
 void clearIn();                                                     //clear; ignore;
 
-int main(){
+int main() {
     int numTeams, numUsers = 1, draftPosition, i, j;                //primitives
     string teamName;
 
@@ -30,7 +30,7 @@ int main(){
     arr = new Team[numTeams = 10];
     draft.setNum(numTeams);
 
-    for(i = 0; i < numUsers; i++){                                  //set user info
+    for(i = 0; i < numUsers; i++) {                                  //set user info
         cout << "Enter your name: ";
         getline(cin, teamName);
         cout << endl << endl;
@@ -39,7 +39,8 @@ int main(){
             cout << "Enter draft position (1 - " << numTeams << ") : ";
             cin >> draftPosition;
             clearIn();
-        } while(draftPosition < 1 || draftPosition > numTeams || !check(pickNum, draftPosition));
+        } while(draftPosition < 1 || draftPosition > numTeams ||
+        		 !contains(pickNum, draftPosition));
 
         arr[draftPosition - 1] = Team(teamName, draftPosition, true);
         pickNum.push_back(draftPosition);
@@ -84,14 +85,8 @@ int main(){
     return 0;
 }
 
-bool check(vector<int>& vec, int a){
-    for(int i = 0; i < vec.size(); i++){
-        if(vec[i] == a){
-            cout << "Pick taken, try again : ";
-            return false;
-        }
-    }
-    return true;
+const bool contains(const vector<int>& v, const int& target) {
+    return find(v.begin(), v.end(), target) != v.end();
 }
 
 void intro(){
