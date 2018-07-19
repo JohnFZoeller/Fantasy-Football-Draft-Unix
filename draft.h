@@ -17,7 +17,8 @@
 #include <unordered_map>
 
 using namespace std;
-
+const int BOARD_SIZE = 35, TITLE = 30, HEIGHT = 0, WIDTH = 1, START_X = 2, 
+START_Y = 3, PLAYERS_AVAILABLE = 33;
 
 class Draft{
 	private:
@@ -29,14 +30,15 @@ class Draft{
 		int numTeams;
 		unsigned int compTime;
 		unsigned int userTime;
+		WINDOW *draftBoard[BOARD_SIZE];
 
 	public:
 		Draft();
 		~Draft();
 
 		//getters setters
-		void setNum(int);
-		int getNum();
+		void setNumTeams(int);
+		const int getNumTeams() const;
 
 		//board functions
 		void pickTime(); 
@@ -44,6 +46,7 @@ class Draft{
 		void makeBoard(Team *arr, vector<NodeData*>&, int);
 		void autoP(Team &, vector<NodeData*>&, WINDOW **board, const int &pick);
 		void toBoard(NodeData *player, WINDOW **board, const int &pick);
+		void makeWindow(const string& name, int *dims, const int& windowNumber);
 
 		void pick(Team &, vector<NodeData*>&, WINDOW **board, const int &pick);
 		void nextTen(vector<NodeData*>&, WINDOW **board);

@@ -8,16 +8,17 @@ using namespace std;
 
 class Player{
     private:
-        string posit, squad, first, last;
+        string position, nflTeam, first, last;
         int rank;
+
     public:
     	Player();
 
-    	int getRank();
+    	int getRank() const ;
 
     	NodeData *makeFromStream(istream &in);
     	void toPlayer(NodeData*);
-    	string playerInfo();
+    	string playerInfo() const;
 };
 
 #endif

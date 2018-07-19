@@ -1,18 +1,15 @@
 #include "player.h"
 
-Player::Player(){
-	posit = squad = first = last = "";
-	rank = 0;
-}
+Player::Player() : position(""), nflTeam(""), first(""), last(""), rank(0) {}
 
-int Player::getRank(){ return rank; }
+int Player::getRank() const { return rank; }
 
-NodeData* Player::makeFromStream(istream& in){
+NodeData* Player::makeFromStream(istream& in) {
 	in >> rank;
 	in.get();
 	in.get();
-	getline(in, squad, ' ');
-	getline(in, posit, ',');
+	getline(in, nflTeam, ' ');
+	getline(in, position, ',');
 	in.get();
 	getline(in, first, ' ');
 	getline(in, last, '\n');
@@ -20,16 +17,17 @@ NodeData* Player::makeFromStream(istream& in){
 	if(last[last.length() - 1] == ',')
 		last.pop_back();
 
-	NodeData* john = new NodeData(rank, first, last, squad, posit);
-    return john;
+	return new NodeData(rank, first, last, nflTeam, position);
 }
 
-void Player::toPlayer(NodeData* change){
-	posit = change->getPosition();
-	squad = change->getSquad();
+void Player::toPlayer(NodeData* change) {
+	position = change->getPosition();
+	nflTeam = change->getSquad();
 	first = change->getFirst();
 	last = change->getLast();
 	rank = change->getRank();
 }
 
-string Player::playerInfo(){ return first + " " + last + "    " + squad; }
+string Player::playerInfo() const { 
+	return first + " " + last + "    " + nflTeam; 
+}

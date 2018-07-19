@@ -12,44 +12,44 @@
 using namespace std;
 
 void intro();                                                       //intro message
-const bool contains(const vector<int>& v, const int& target);  //vector.contains();
+const bool contains(const vector<int>& v, const int& target);
 void clearIn();                                                     //clear; ignore;
 
 int main() {
     int numTeams, numUsers = 1, draftPosition, i, j;                //primitives
     string teamName;
 
-    Team *arr;                                                      //abstracts
+    Team *teams;                                                      //abstracts
     NodeData *ptr = NULL;
     Draft draft;
-    vector <NodeData*> allV;                                        //all players
-    vector <int> pickNum;                                           //taken Picks
+    vector<NodeData*> players;                                        //all players
+    vector<int> claimedDraftPositions;                                //taken Picks
 
-    //------------------------------------PART ONE--------------------------------
+    //----------------------------PART ONE--------------------------------
     intro();
-    arr = new Team[numTeams = 10];
-    draft.setNum(numTeams);
+    teams = new Team[numTeams = 10];
+    draft.setNumTeams(numTeams);
 
     for(i = 0; i < numUsers; i++) {                                  //set user info
         cout << "Enter your name: ";
         getline(cin, teamName);
         cout << endl << endl;
 
-        do{                                                         //set draft positions
+        do {                                                         //set draft positions
             cout << "Enter draft position (1 - " << numTeams << ") : ";
             cin >> draftPosition;
             clearIn();
         } while(draftPosition < 1 || draftPosition > numTeams ||
-        		 !contains(pickNum, draftPosition));
+        		 contains(claimedDraftPositions, draftPosition));
 
-        arr[draftPosition - 1] = Team(teamName, draftPosition, true);
-        pickNum.push_back(draftPosition);
+        teams[draftPosition - 1] = Team(teamName, draftPosition, true);
+        claimedDraftPositions.push_back(draftPosition);
     }
 
 
     for(j = 0; j < numTeams; j++)                                   //fill autopicks
-        if(arr[j].getUser() == false)                               //not a user?
-            arr[j] = Team("auto", (j + 1), false);                  //make autopick
+        if(teams[j].getUser() == false)                               //not a user?
+            teams[j] = Team("auto", (j + 1), false);                  //make autopick
 
     //-------------------------------END PART ONE----------------------------
     //now read in player list into vector
@@ -59,20 +59,20 @@ int main() {
     system("sh 2017.sh");
     ifstream in("players.txt");                                    //open file
     
-    if(!in){                                                       //file validity
+    if(!in) {                                                       //file validity
         cout << "File could not be opened.\n";
         return 1;
     }
 
-    while(!in.eof()){
-        Player john;
-        ptr = john.makeFromStream(in);
+    while(!in.eof()) {
+        Player playerObject;
+        ptr = playerObject.makeFromStream(in);
 
-        for(int i = 0; i < allV.size(); i++)                        //search whole vector
-            if(ptr == allV[i])                                      //...for repeats
-                delete ptr;                                         //...delete repeats
+        for(int i = 0; i < players.size(); i++)                    //search whole vector
+            if(ptr == players[i])                                  //...for repeats
+                delete ptr;                                        //...delete repeats
 
-        if(ptr != NULL) allV.push_back(ptr);                        //add player
+        if(ptr != NULL) players.push_back(ptr);                        //add player
     }
 
     cout << "Players Acquired \n\n\n";
@@ -81,7 +81,7 @@ int main() {
     //--------------------------------PART THREE-----------------------------
 
     draft.pickTime();
-    draft.makeBoard(arr, allV, numTeams);
+    draft.makeBoard(teams, players, numTeams);
     return 0;
 }
 
@@ -97,7 +97,7 @@ void intro(){
     cout << line + line << endl << endl << endl;
 }
 
-void clearIn(){
+void clearIn() {
     cin.clear();
     cin.ignore(100, '\n');
 }
@@ -135,10 +135,10 @@ void clearIn(){
     // << (numTeams - numUsers) << " autopicks" << endl;
         //cout << "Enter user " << i + 1 << "'s  name: ";
 
-        // arr[i] = Team(teamName, draftPosition, true);               //new team object
-        // arr[draftPosition - 1] = arr[i];                            //correct array position
-        // pickNum.push_back(draftPosition);                           //pick number taken
+        // teams[i] = Team(teamName, draftPosition, true);               //new team object
+        // teams[draftPosition - 1] = teams[i];                            //correct teamsay position
+        // claimedDraftPositions.push_back(draftPosition);                           //pick number taken
 
 
-        // if((draftPosition - 1) != i)                                //replace old array pos
-        //     arr[i] = Team();                                        //...with a blank team
+        // if((draftPosition - 1) != i)                                //replace old teamsay pos
+        //     teams[i] = Team();                                        //...with a blank team

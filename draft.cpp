@@ -5,14 +5,12 @@ Draft::Draft(){
 	numTeams = 0;
 	compTime = userTime = 0;
 }
-//adding comments
-
 
 Draft::~Draft(){}
 
-void Draft::setNum(int num){ numTeams = num; }
+void Draft::setNumTeams(int num) { numTeams = num; }
 
-int Draft::getNum(){ return numTeams; }
+const int Draft::getNumTeams() const { return numTeams; }
 
 void Draft::pickTime(){
 	double cTime;
@@ -47,21 +45,22 @@ void Draft::pickTime(){
 	system("clear;");
 }
 
-void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
+void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams) {
 	int sY = 8, sX = 0, w = 14, h = 4, ch, j = 0, z = 0;
 	string tName;			
-	WINDOW *board[35]; //timer + players + menu  + roster + titles +    title +    teams(2)
+	WINDOW *board[BOARD_SIZE]; //timer + players + menu  + roster + titles +    title +    teams(2)
 					   //ar[34]  arr[33]   ar[32]  ar[31]   arr[20-29]    ar[30]  ar[0-19]
+
 	initscr();											//start curses
 	cbreak();											//line buffer off
 	keypad(stdscr, TRUE);								//to use f1
-	printw("Press cntr+c to exit");							//print 
+	printw("Press cntr+c to exit");						//print 
 	refresh();											//output
 
-	board[30] = createWin(4, 100, 1, 0);				//title
-	wattron(board[30], A_BOLD);
-	mvwprintw(board[30], 1, 10, "John Zoeller Draft");	//print T
-	wrefresh(board[30]);								//output
+	board[TITLE] = createWin(4, 100, 1, 0);				//title
+	wattron(board[TITLE], A_BOLD);
+	mvwprintw(board[TITLE], 1, 10, "John Zoeller Draft");	//print T
+	wrefresh(board[TITLE]);								//output
 
 	board[34] = createWin(4, 40, 1, 101);				//timer
 	wattron(board[34], A_BOLD);
@@ -82,13 +81,19 @@ void Draft::makeBoard(Team *arr, vector<NodeData*>& a, int teams){
 		wrefresh(board[k + 20]);
 	} 
 
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 10; i++)
 		board[i] = createWin(h, w, (sY + (h * j)), (sX + (w * i)));
-	} j++;
+
+	j++;
+
 	for(int a = 19; a >= 10; a--){
 		board[a] = createWin(h, w, (sY + (h * j)), (sX + (w * z)));
 		z++;
 	}
+
+	int dims[] = { 22, 45, 16, 0 };
+	makeWindow("PLAYERS", dims, PLAYERS_AVAILABLE);
+
 
 	board[33] = createWin(22, 45, 16, 0);				//players
 	wattron(board[33], A_BOLD);
@@ -340,6 +345,16 @@ void Draft::displayList(){
 		for(LinkNode *i = head; i != NULL; i = i->next)
 			cout << *i->pick << endl;
 	}
+}
+
+void Draft::makeWindow(const string& name, int *dims, const int& windowNumber) {
+	// draftBoard[windowNumber] = 
+	// 	createWin(dims[HEIGHT], dims[WIDTH], dims[START_X], dims[START_Y]);
+
+	// wattron(draftBoard[windowNumber], A_BOLD);
+	// mvwprintw(draftBoard[windowNumber], 1, 1, name);				//print title
+	// wattroff(draftBoard[windowNumber], A_BOLD);
+	// wrefresh(draftBoard[windowNumber]);								//output
 }
 
 /*
